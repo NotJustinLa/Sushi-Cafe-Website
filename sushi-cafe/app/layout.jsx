@@ -6,7 +6,7 @@ import './globals.css'
 const bebasNeue = Bebas_Neue({
   weight: '400',
   subsets: ['latin'],
-  variable: '--font-bebas-neue', // creates CSS var--font display
+  variable: '--font-bebas-neue',
 })
 
 const notoSerifJP = Noto_Serif_JP({
