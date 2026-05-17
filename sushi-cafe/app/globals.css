@@ -1,22 +1,80 @@
 @import "tailwindcss";
 
 @theme {
-  --color-brand-red: #c8102e;
-  --color-brand-black: #0a0a0a;
-  --color-brand-white: #f0ebe4;
-  --font-display: var(--font-bebas-neue);
-  --font-jp: var(--font-jp);
-  --font-mono: var(--font-mono);
+   /* ── Page backgrounds ── */
+  --color-bg: #f7eedb; /* Main page background — warm cream */
+  --color-bg-paper: #fbf5e4; /* Slightly lighter cream, for cards or elevated surfaces */
+  --color-bg-deep: #ece1c6; /* Darker cream, for recessed areas or section dividers */
+  
+  /* ── Ink (text + strokes) ── */
+  --color-ink: #141210; /* Full-strength text — headings, high-contrast labels */
+  --color-ink-soft: rgba(20, 18, 16, 0.72); /* Body text — readable but not harsh */
+  --color-ink-mute: rgba(20, 18, 16, 0.48); /* Secondary labels, nav links, eyebrows */
+  --color-ink-faint: rgba(20, 18, 16, 0.18); /* Placeholder text or very subtle hints */
+  --color-rule: rgba(20, 18, 16, 0.14); /* Hairline dividers and borders */
+  
+  /* ── Red accent ── */
+  --color-red: #d81f2a; /* Primary brand red — the hinomaru, "Cafe" in the headline, red dots */
+  --color-red-deep: #a8131c; /* Darker red for hover states or pressed variants */
+  
+  /* ── Splash loading screen only ── */
+  --color-cream-fg: #fff8e7; /* Off-white used for the wordmark text on the dark splash */
+  --color-splash-bg: #0a0807; /* Near-black background of the loading splash screen */
+
+  --font-display: var(--font-shippori-mincho), 'Noto Serif JP', Georgia, serif;
+  --font-body: var(--font-dm-sans), -apple-system, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, 'SFMono-Regular', monospace;
+  --font-jp: var(--font-zen-kaku), 'Hiragino Sans', 'Yu Gothic', sans-serif;
+
+  --container-maxw: 1440px;
+
+  /* Keyframes used by the scroll indicator pulse and splash bloom */
+  --animate-load-bloom: load-bloom 1.1s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  --animate-scroll-pulse: scroll-pulse 2.4s ease-in-out infinite;
+  
+  @keyframes load-bloom {
+    0%   { transform: scale(0); opacity: 0; }
+    60%  { transform: scale(1.03); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  @keyframes scroll-pulse {
+    0%, 100% { transform: scaleX(0.4); transform-origin: left; opacity: 0.4; }
+    50%       { transform: scaleX(1); opacity: 1; }
+  }
 }
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
+/* Base */
+html,
+body {
   margin: 0;
   padding: 0;
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
 }
 
-html {
-  background: #0a0a0a;
+/* Lenis smooth-scroll classes */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: clip;
+}
+
+/* Fluid horizontal padding used by hero and nav */
+:root {
+  --pad-x: clamp(20px, 5vw, 72px);
+}
+
+/* Fluid horizontal padding used by hero and nav */
+:root {
+  --pad-x: clamp(20px, 5vw, 72px);
 }
