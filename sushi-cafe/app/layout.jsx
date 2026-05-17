@@ -1,37 +1,55 @@
-import { Bebas_Neue, Noto_Serif_JP, Space_Mono } from 'next/font/google'
+import { Shippori_Mincho, Zen_Kaku_Gothic_New, DM_Sans, JetBrains_Mono } from 'next/font/google'
 import Nav from '@/components/Nav'
 import LenisProvider from '@/components/LenisProvider'
 import './globals.css'
 
-const bebasNeue = Bebas_Neue({
-  weight: '400',
+const shippori = Shippori_Mincho({
   subsets: ['latin'],
-  variable: '--font-bebas-neue',
+  weight: ['500', '700', '800'],
+  variable: '--font-shippori-mincho',
+  display: 'swap',
 })
 
-const notoSerifJP = Noto_Serif_JP({
-  weight: '400',
+const zenKaku = Zen_Kaku_Gothic_New({
+  weight: ['400', '500', '700', '900'],
   subsets: ['latin'],
-  variable: '--font-noto-serif-jp', // creates CSS var--font serif
+  variable: '--font-zen-kaku', // creates CSS var--font serif
+  display: 'swap',
 })
 
-const spaceMono = Space_Mono({
+const dmSans = DM_Sans({
   weight: ['400', '700'],
   subsets: ['latin'],
   variable: '--font-space-mono', // creates CSS var--font mono
+  display: 'swap',
 })
 
+const jetBrains = JetBrains_Mono({
+  weight: ['400', '500'],
+  subsets: ['latin'],
+  variable: '--font-jet-brains',
+  display: 'swap',
+})
+  
 export const metadata = {
-  title: 'Sushi Cafe',
-  description: 'Handcrafted sushi in Melbourne. Fresh daily, made with love.',
+  title: 'Sushi Cafe — 292 Doncaster Rd, Balwyn North',
+  description: 'A family sushi spot on Doncaster Road. Hand-rolled fresh daily in Balwyn North since 2013.',
+}
+
+// viewport object configures how the website is displayed on mobile phones 
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
 }
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${bebasNeue.variable} ${notoSerifJP.variable} ${spaceMono.variable}`}>
-      <body className="bg-brand-black">
+    <html 
+    lang="en" 
+    className={`${shippori.variable} ${zenKaku.variable} ${dmSans.variable} ${dmSans.jetBrains}`}>
+      <body>
         <LenisProvider>
-          <Nav />
           {children}
         </LenisProvider>
       </body>
