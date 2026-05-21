@@ -6,6 +6,12 @@ import LoadingSplash from "./LoadingSplash";
 
 const MIN_DURATION = 1700 //that the splash shows for
 
+/**
+ * Root layout wrapper that gates page content behind the loading splash.
+ * Waits for both the window "load" event and a MIN_DURATION floor before
+ * dismissing — so the splash never flickers out on fast connections.
+ * Wraps LoadingSplash in AnimatePresence so its exit animation runs cleanly.
+ */
 export default function SiteShell({ children}) {
     // loading starts as True so the splash is visible
     // when it turns to false, the splash animates out

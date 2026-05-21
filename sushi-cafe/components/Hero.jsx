@@ -2,134 +2,104 @@
 
 import { motion } from 'framer-motion'
 
-// --- Animation variants ---
-//container for two title words.
-// staggerChildren means each child animates 0.2s after the previous one.
-const titleContainer = {
-    hidden: {},
-    visible: {
-        transition: {
-            staggerChildren: 0.2,
-        },
-    },
-}
+const fadeUp = {
+    hidden: { opacity: 0, y: 16},
+    show: { opacity: 1, y: 0 },
+};
 
-// Each word slides up from below its clip box.
-// ease: [0.16, 1, 0.3, 1] is a fast-start, soft landing cubic bezier
-const wordVariant = {
-    hidden: { y: '105%' , opacity: 0},
-    visible: {
-        y: 0,
-        opacity: 1,
-        transition: {
-            duration: 0.95,
-            ease: [0.16, 1, 0.3, 1],
-        },
-    },
-}
-
-const jpVariant = {
-    hidden: { opacity: 0, y: 8 },
-    visible: {
-        opacity: 1,
-        y: 0,
-        transition: { duration: 0.7, delay: 0.2 },
-    },
-}
-
-// The bottom bar (melbourne + Scroll) fades in
-// after everything else.
-const bottomVariant = {
-    hidden: { opacity: 0 },
-    visible: {
-        opacity: 1,
-        transition: { duration: 0.7, delay: 1.1},
-    },
-}
-
+// Full-viewport hero section with staggered fade-up entrance animations and decorative elements.
 export default function Hero() {
     return (
-        <section
-        id="hero"
-        // "This section is a full-screen black box, centred both ways, with children stacked vertically, and anything that spills outside gets clipped."
-        className="relative h-screen flex flex-col items-center justify-center bg-brand-black text-center overflow-hidden"
-    >
-        {/* JP text*/}
-        <motion.p
-            className="font-jp text-[13px] font-light tracking-[0.55em] text-brand-white/35 mb-5"
-            variants={jpVariant}
-            initial="hidden"
-            animate="visible"
+        <section 
+        id="hero" 
+        className="relative grid min-h-screen grid-cols-1
+        items-center px-[var(--pad-x)] pb-20 pt-[90px]"
         >
-            寿 司 カ フ ェ
-        </motion.p>
-     
-        {/* Main title — SUSHI CAFE */}
-        {/*
-        This motion.h1 is the stagger container.
-        It has variants={titleContainer} which has staggerChildren: 0.2.
-        Both child motion.spans use variants={wordVariant}.
-        Framer Motion automatically staggers them 0.2s apart.
-        */}
-        <motion.h1
-            className="font-display text-[clamp(100px,19vw,280px)]
-            leading-none tracking-[-0.02em] flex gap-[0.06em]"
-            variants={titleContainer}
+        {/* Faint background circle - decorative */}
+        <div
+            aria-hidden="true"
+            className="pointer-events-none absolute right-[-8vw]
+            top-1/2 -z-10 aspect-square w-[clamp(200px, 60vw, 820px)] 
+            -translate-y-1/2 rounded-full bg-red opacity-[0.06]"
+        />
+
+        {/* staggered content container*/}
+        <motion.div
+            className="relative mx-auto w-full 
+            max-w-[var(--container-maxw)]"
             initial="hidden"
-            animate="visible"
+            animate="show"
+            transition={{ staggerChildren: 0.12, delayChildren: 1.2 }}
         >
-            { /* loops over the words */ }
-            {[
-                { word: 'SUSHI', color: 'text-brand-red' },
-                { word: 'CAFE',  color: 'text-brand-white' },
-                ].map(({ word, color }) => (
-                <span key={word} className="overflow-hidden block">
-                    <motion.span className={`block ${color}`} variants={wordVariant}>
-                    {word}
-                    </motion.span>
+            {/* Eyebrow label */}
+            <motion.div
+                variants={fadeUp}
+                transition={{ duration: 0.7, ease: [0.2, 0.8, 0.2, 1] }}
+                className="mb-6 inline-flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.22em] text-ink-mute before:h-px before:w-7 before:bg-current before:content-['']"
+            >
+                01 — Hand-rolled fresh, every single day
+            </motion.div>
+
+            {/* Main headline */}
+            <motion.h1
+                variants={fadeUp}
+                transition={{ duration: 0.85, ease: [0.2, 0.8, 0.2, 1] }}
+                className="m-0 max-w-[9ch] font-display text-[clamp(72px,14vw,220px)] font-bold italic leading-[0.9] tracking-[-0.02em]"
+            >
+                <span className="block">Sushi</span>
+                <span className="block">
+                    <em className="italic text-red">Cafe</em>
+                </span>
+            </motion.h1>
+
+            {/* Sub Copy */}
+            <motion.p
+                variants={fadeUp}
+                transition={{ duration: 0.7, ease: [0.2, 0.8, 0.2, 1] }}
+                className="mt-7 max-w-[32ch] text-[clamp(16px,1.4vw,19px)] 
+                leading-[1.5] text-ink-soft"
+            >
+                A family sushi spot on Doncaster Road. John and family, rolling fast,
+                fresh nigiri, sashimi and rolls in Balwyn North since 2013.
+            </motion.p>
+
+            {/* Meta row */}
+            <motion.div
+            variants={fadeUp}
+            transition={{ duration: 0.7, ease: [0.2, 0.8, 0.2, 1] }}
+            className="mt-12 flex flex-wrap gap-7 font-mono text-[11px] uppercase tracking-[0.18em] text-ink-mute"
+            >
+            {["Est. 2013", "Balwyn North · VIC", "46+ items daily"].map((item) => (
+                <span
+                key={item}
+                className="inline-flex items-center gap-2 before:h-1 before:w-1 before:rounded-full before:bg-red before:content-['']"
+                >
+                {item}
                 </span>
             ))}
+            </motion.div>
 
-        </motion.h1>
-        
-        {/* Bottom text - absolutely positioned so it
-         does not push the title off centre */}
+            <motion.div
+                aria-hidden="true"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.9, delay: 1.6, ease: "easeOut" }}
+                className="absolute bottom-[8vh] right-0 top-[12vh] flex select-none items-start font-jp text-[13px] font-medium tracking-[0.35em] text-ink-mute [writing-mode:vertical-rl] max-md:text-[11px]"
+            >
+                新鮮・手作り・292ドンキャスター
+            </motion.div>
 
-         <motion.div
-            className="absolute bottom-9 right-10 flex
-            items-center gap-6"
-            variants={bottomVariant}
-            initial="hidden"
-            animate="visible"
-         >
-        {/* Left - city name */}
-        <span className="font-mono text-[9px] tracking-[0.3em]
-        uppercase text-brand-white/50">
-            Melbourne, Australia
-        </span>
-
-        {/* Right — scroll hint */}
-        <div className="flex items-center gap-3">
-          <span className="font-mono text-[9px] tracking-[0.3em] uppercase text-brand-white/20">
-            Scroll
-          </span>
-          {/* The red line grows from left to right (scaleX 0 → 1, origin-left) */}
-          <motion.div
-            className="h-px w-10 bg-brand-red origin-left"
-            initial={{ scaleX: 0 }}
-            animate={{ scaleX: 1 }}
-            transition={{ duration: 0.6, delay: 1.4 }}
-          />
-        </div>
-
-      </motion.div>
-
+            {/* Scroll indicator — pulsing line on ::after */}
+            <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.9, delay: 1.8, ease: "easeOut" }}
+                className="absolute bottom-[26px] left-[var(--pad-x)] flex items-center gap-[14px] font-mono text-[10.5px] uppercase tracking-[0.26em] text-ink-mute after:h-px after:w-[60px] after:bg-current after:content-[''] after:[animation:scroll-pulse_2.4s_ease-in-out_infinite]"
+            >
+                Scroll
+            </motion.div>
+        </motion.div>
     </section>
-  )
+  );
 }
-
-    
-
-
-
 

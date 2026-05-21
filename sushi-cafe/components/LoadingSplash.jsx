@@ -2,6 +2,12 @@
 
 import { motion } from "framer-motion"
 
+/**
+ * Full-screen loading overlay shown on first visit.
+ * Sequences three Framer Motion animations: a red circle scales in,
+ * then the brand wordmark fades up, then the Japanese subtitle fades up.
+ * The whole overlay fades out on exit — controlled by AnimatePresence in the parent.
+ */
 export default function LoadingSplash() {
     return (
         <motion.div
