@@ -7,21 +7,75 @@ const fadeUp = {
     show: { opacity: 1, y: 0 },
 };
 
+function SplitWord({ children }) {
+    return (
+        <span style={{ display: 'inline-block' }}>
+            {[...children].map((char, i) => (
+                <motion.span
+                    key={i}
+                    style={{ display: 'inline-block' }}
+                    whileHover={{ y: -10 }}
+                    transition={{ type: 'spring', stiffness: 400, damping: 15 }}
+                >
+                    {char}
+                </motion.span>
+            ))}
+        </span>
+    )
+}
+
 // Full-viewport hero section with staggered fade-up entrance animations and decorative elements.
 export default function Hero() {
     return (
         <section 
         id="hero" 
-        className="relative grid min-h-screen grid-cols-1
+        className="relative isolate grid min-h-screen grid-cols-1
         items-center px-[var(--pad-x)] pb-20 pt-[90px]"
         >
         {/* Faint background circle - decorative */}
         <div
             aria-hidden="true"
             className="pointer-events-none absolute right-[-8vw]
-            top-1/2 -z-10 aspect-square w-[clamp(200px, 60vw, 820px)] 
-            -translate-y-1/2 rounded-full bg-red opacity-[0.06]"
+            top-1/2 -z-10 aspect-square w-[clamp(100px,48vw,820px)]
+            -translate-y-1/2 rounded-full bg-red opacity-[0.1]"
         />
+
+        {/* Aoi leaf motifs - decorative */}
+        {[
+            { style: { top: '6vh',    left:  '5vw'  }, rotate: '20deg',  opacity: 0.13, size: 'clamp(60px,11vw,160px)'  },
+            { style: { top: '45vh',   left:  '6vw'  }, rotate: '55deg',  opacity: 0.09, size: 'clamp(60px,10vw,145px)'  },
+            { style: { bottom: '8vh', left:  '3vw'  }, rotate: '-20deg', opacity: 0.10, size: 'clamp(55px,9vw,130px)'   },
+            { style: { top: '8vh',    left:  '30vw' }, rotate: '-50deg', opacity: 0.07, size: 'clamp(48px,6.5vw,95px)'  },
+            { style: { top: '33vh',   left:  '18vw' }, rotate: '110deg', opacity: 0.06, size: 'clamp(44px,6vw,88px)'    },
+            { style: { top: '60vh',   left:  '25vw' }, rotate: '-80deg', opacity: 0.08, size: 'clamp(55px,8vw,115px)'   },
+            { style: { top: '78vh',   left:  '18vw' }, rotate: '90deg',  opacity: 0.07, size: 'clamp(50px,7vw,100px)'   },
+            { style: { top: '15vh',   left:  '42vw' }, rotate: '-65deg', opacity: 0.06, size: 'clamp(44px,6vw,88px)'    },
+            { style: { top: '50vh',   left:  '40vw' }, rotate: '135deg', opacity: 0.06, size: 'clamp(48px,6.5vw,95px)'  },
+            { style: { top: '25vh',   left:  '48vw' }, rotate: '45deg',  opacity: 0.07, size: 'clamp(50px,7vw,100px)'   },
+            { style: { top: '62vh',   left:  '44vw' }, rotate: '120deg', opacity: 0.07, size: 'clamp(55px,8vw,115px)'   },
+            { style: { bottom: '20vh',left:  '38vw' }, rotate: '40deg',  opacity: 0.07, size: 'clamp(48px,6.5vw,95px)'  },
+        ].map(({ style, rotate, opacity, size }, i) => (
+            <div
+                key={i}
+                aria-hidden="true"
+                className="pointer-events-none absolute -z-10 aspect-square"
+                style={{
+                    width: size,
+                    ...style,
+                    opacity,
+                    backgroundColor: 'var(--color-red)',
+                    transform: `rotate(${rotate})`,
+                    maskImage: 'url(/aoi_leaf_background.png)',
+                    WebkitMaskImage: 'url(/aoi_leaf_background.png)',
+                    maskSize: 'contain',
+                    WebkitMaskSize: 'contain',
+                    maskRepeat: 'no-repeat',
+                    WebkitMaskRepeat: 'no-repeat',
+                    maskPosition: 'center',
+                    WebkitMaskPosition: 'center',
+                }}
+            />
+        ))}
 
         {/* staggered content container*/}
         <motion.div
@@ -31,14 +85,6 @@ export default function Hero() {
             animate="show"
             transition={{ staggerChildren: 0.12, delayChildren: 1.2 }}
         >
-            {/* Eyebrow label */}
-            <motion.div
-                variants={fadeUp}
-                transition={{ duration: 0.7, ease: [0.2, 0.8, 0.2, 1] }}
-                className="mb-6 inline-flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.22em] text-ink-mute before:h-px before:w-7 before:bg-current before:content-['']"
-            >
-                01 — Hand-rolled fresh, every single day
-            </motion.div>
 
             {/* Main headline */}
             <motion.h1
@@ -46,9 +92,9 @@ export default function Hero() {
                 transition={{ duration: 0.85, ease: [0.2, 0.8, 0.2, 1] }}
                 className="m-0 max-w-[9ch] font-display text-[clamp(72px,14vw,220px)] font-bold italic leading-[0.9] tracking-[-0.02em]"
             >
-                <span className="block">Sushi</span>
+                <span className="block"><SplitWord>Sushi</SplitWord></span>
                 <span className="block">
-                    <em className="italic text-red">Cafe</em>
+                    <em className="italic text-red"><SplitWord>Cafe</SplitWord></em>
                 </span>
             </motion.h1>
 
@@ -56,7 +102,7 @@ export default function Hero() {
             <motion.p
                 variants={fadeUp}
                 transition={{ duration: 0.7, ease: [0.2, 0.8, 0.2, 1] }}
-                className="mt-7 max-w-[32ch] text-[clamp(16px,1.4vw,19px)] 
+                className="mt-7 max-w-[55ch] text-[clamp(16px,1.4vw,19px)] 
                 leading-[1.5] text-ink-soft"
             >
                 A family sushi spot on Doncaster Road. John and family, rolling fast,
@@ -79,25 +125,27 @@ export default function Hero() {
             ))}
             </motion.div>
 
-            <motion.div
-                aria-hidden="true"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.9, delay: 1.6, ease: "easeOut" }}
-                className="absolute bottom-[8vh] right-0 top-[12vh] flex select-none items-start font-jp text-[13px] font-medium tracking-[0.35em] text-ink-mute [writing-mode:vertical-rl] max-md:text-[11px]"
-            >
-                新鮮・手作り・292ドンキャスター
-            </motion.div>
+        </motion.div>
 
-            {/* Scroll indicator — pulsing line on ::after */}
-            <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.9, delay: 1.8, ease: "easeOut" }}
-                className="absolute bottom-[26px] left-[var(--pad-x)] flex items-center gap-[14px] font-mono text-[10.5px] uppercase tracking-[0.26em] text-ink-mute after:h-px after:w-[60px] after:bg-current after:content-[''] after:[animation:scroll-pulse_2.4s_ease-in-out_infinite]"
-            >
-                Scroll
-            </motion.div>
+        {/* Vertical Japanese rail — positions against the section */}
+        <motion.div
+            aria-hidden="true"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.9, delay: 1.6, ease: "easeOut" }}
+            className="absolute right-3 top-1/2 -translate-y-1/2 select-none font-jp text-[13px] font-medium tracking-[0.35em] text-ink-mute [writing-mode:vertical-rl] max-md:text-[11px]"
+        >
+            新鮮・手作り・292ドンキャスター
+        </motion.div>
+
+        {/* Scroll indicator — positions against the section */}
+        <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.9, delay: 1.8, ease: "easeOut" }}
+            className="absolute bottom-[26px] left-[var(--pad-x)] flex items-center gap-[14px] font-mono text-[10.5px] uppercase tracking-[0.26em] text-ink-mute after:h-px after:w-[60px] after:bg-current after:content-[''] after:[animation:scroll-pulse_2.4s_ease-in-out_infinite]"
+        >
+            Scroll
         </motion.div>
     </section>
   );

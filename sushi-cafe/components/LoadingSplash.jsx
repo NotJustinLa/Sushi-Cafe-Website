@@ -18,7 +18,7 @@ export default function LoadingSplash() {
             transition={{ duration: 0.55, ease: "easeOut"}}
             aria-hidden="true"
         >
-            <div className="relative grid aspect-square w-min(320px, 70vw)] 
+            <div className="relative grid aspect-square w-[min(300px,70vw)] 
             place-items-center">
                 {/* Red Circle */}
                 <motion.div
@@ -38,14 +38,14 @@ export default function LoadingSplash() {
                 {/* Text */}
                 <motion.div
                     className="relative z-[1] text-center font-display
-                    text-[clamp(40px, 7vw, 62px)] italic leading-[0.95]
+                    text-[clamp(40px,7vw,62px)] italic leading-[0.95]
                     text-cream-fg"
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.55, ease: "easeOut", delay: 0.55 }}
                 >
-                    <span className="block">SUSHI</span>
-                    <span className="ml-[18px] mt-2 block">CAFE</span>
+                    <span className="mr-[18px] block">SUSHI</span>
+                    <span className="mt-1 block">CAFE</span>
                 </motion.div>
 
                 {/* Japanese subtitle */}

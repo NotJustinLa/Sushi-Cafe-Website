@@ -1,5 +1,6 @@
 import { Shippori_Mincho, Zen_Kaku_Gothic_New, DM_Sans, JetBrains_Mono } from 'next/font/google'
 import Nav from '@/components/Nav'
+import SiteShell from '@/components/SiteShell'
 import LenisProvider from '@/components/LenisProvider'
 import './globals.css'
 
@@ -47,10 +48,13 @@ export default function RootLayout({ children }) {
   return (
     <html 
     lang="en" 
-    className={`${shippori.variable} ${zenKaku.variable} ${dmSans.variable} ${dmSans.jetBrains}`}>
+    className={`${shippori.variable} ${zenKaku.variable} ${dmSans.variable} ${jetBrains.variable}`}>
       <body>
         <LenisProvider>
-          {children}
+          <SiteShell>
+            <Nav />
+            {children}
+          </SiteShell>
         </LenisProvider>
       </body>
     </html>
