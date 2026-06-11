@@ -137,16 +137,6 @@ export default function Hero() {
         >
             新鮮・手作り・292ドンキャスター
         </motion.div>
-
-        {/* Scroll indicator — positions against the section */}
-        <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.9, delay: 1.8, ease: "easeOut" }}
-            className="absolute bottom-[26px] left-[var(--pad-x)] flex items-center gap-[14px] font-mono text-[10.5px] uppercase tracking-[0.26em] text-ink-mute after:h-px after:w-[60px] after:bg-current after:content-[''] after:[animation:scroll-pulse_2.4s_ease-in-out_infinite]"
-        >
-            Scroll
-        </motion.div>
     </section>
   );
 }
