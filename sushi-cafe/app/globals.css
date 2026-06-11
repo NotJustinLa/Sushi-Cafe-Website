@@ -43,6 +43,9 @@
   }
 }
 
+/* Hide native cursor everywhere — CustomCursor replaces it */
+* { cursor: none !important; }
+
 /* Base */
 html,
 body {
