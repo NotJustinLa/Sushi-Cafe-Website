@@ -77,8 +77,3 @@ html.lenis body {
 :root {
   --pad-x: clamp(20px, 5vw, 72px);
 }
-
-/* Fluid horizontal padding used by hero and nav */
-:root {
-  --pad-x: clamp(20px, 5vw, 72px);
-}
