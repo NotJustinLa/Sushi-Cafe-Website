@@ -7,13 +7,14 @@ export default function LenisProvider({ children }) {
     useEffect(() => {
         //create the lenis instance with our settings
         const lenis = new Lenis({
-            duration: 1.2,
-            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            // `lerp` controls WHEEL smoothness (0–1). Higher = snappier / less
+            // smooth, lower = floatier. 0.1 is Lenis's floaty default; raise it
+            // to reduce the effect (0.2–0.4 is tight, 1 = no smoothing).
+            // NOTE: duration/easing only affect programmatic scrollTo (anchor
+            // jumps), NOT the wheel — that's why tuning duration did nothing.
+            lerp: 0.3,
             smoothWheel: true,
             smoothTouch: false,
-            // Exponential ease-out — starts fast, slows to a very gentle stop.
-            // t goes from 0 (scroll start) to 1 (scroll end).
-            // Math.pow(2, -10 * t) is an exponential decay curve.
         });
 
         // Lenis needs to be updated every animation frame (60fps).

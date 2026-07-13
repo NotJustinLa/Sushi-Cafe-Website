@@ -40,20 +40,13 @@ export default function Hero() {
             -translate-y-1/2 rounded-full bg-red opacity-[0.1]"
         />
 
-        {/* Aoi leaf motifs - decorative */}
+        {/* Aoi leaf motifs - decorative. Two only: top-left and bottom-right,
+            each with its tip pointing into the middle of the screen. The leaf
+            points straight down at 0deg, so -45deg aims the tip down-right
+            (top-left corner) and 135deg aims it up-left (bottom-right corner). */}
         {[
-            { style: { top: '6vh',    left:  '5vw'  }, rotate: '20deg',  opacity: 0.13, size: 'clamp(60px,11vw,160px)'  },
-            { style: { top: '45vh',   left:  '6vw'  }, rotate: '55deg',  opacity: 0.09, size: 'clamp(60px,10vw,145px)'  },
-            { style: { bottom: '8vh', left:  '3vw'  }, rotate: '-20deg', opacity: 0.10, size: 'clamp(55px,9vw,130px)'   },
-            { style: { top: '8vh',    left:  '30vw' }, rotate: '-50deg', opacity: 0.07, size: 'clamp(48px,6.5vw,95px)'  },
-            { style: { top: '33vh',   left:  '18vw' }, rotate: '110deg', opacity: 0.06, size: 'clamp(44px,6vw,88px)'    },
-            { style: { top: '60vh',   left:  '25vw' }, rotate: '-80deg', opacity: 0.08, size: 'clamp(55px,8vw,115px)'   },
-            { style: { top: '78vh',   left:  '18vw' }, rotate: '90deg',  opacity: 0.07, size: 'clamp(50px,7vw,100px)'   },
-            { style: { top: '15vh',   left:  '42vw' }, rotate: '-65deg', opacity: 0.06, size: 'clamp(44px,6vw,88px)'    },
-            { style: { top: '50vh',   left:  '40vw' }, rotate: '135deg', opacity: 0.06, size: 'clamp(48px,6.5vw,95px)'  },
-            { style: { top: '25vh',   left:  '48vw' }, rotate: '45deg',  opacity: 0.07, size: 'clamp(50px,7vw,100px)'   },
-            { style: { top: '62vh',   left:  '44vw' }, rotate: '120deg', opacity: 0.07, size: 'clamp(55px,8vw,115px)'   },
-            { style: { bottom: '20vh',left:  '38vw' }, rotate: '40deg',  opacity: 0.07, size: 'clamp(48px,6.5vw,95px)'  },
+            { style: { top: '4vh',    left:  '2vw'  }, rotate: '-45deg', opacity: 0.11, size: 'clamp(140px,20vw,300px)' },
+            { style: { bottom: '4vh', right: '2vw'  }, rotate: '135deg', opacity: 0.11, size: 'clamp(140px,20vw,300px)' },
         ].map(({ style, rotate, opacity, size }, i) => (
             <div
                 key={i}

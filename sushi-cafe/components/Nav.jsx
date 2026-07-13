@@ -1,9 +1,14 @@
+'use client'
+
+import { useCart } from './CartProvider'
+
 /**
  * Fixed top navigation bar with brand logo, section links, and an order CTA.
  * Uses pointer-events-none on the wrapper so the transparent background stays
  * click-through, with pointer-events-auto restored on each interactive element.
  */
 export default function Nav() {
+    const { count } = useCart()
     return (
       <nav className="pointer-events-none fixed inset-x-0 top-0 
       z-50 flex items-center justify-between px-[var(--pad-x)] 
@@ -31,12 +36,12 @@ export default function Nav() {
 
       {/* CTA */}
       <a
-        href="#visit"
-        className="pointer-events-auto rounded-full border border-ink 
-        bg-transparent px-[18px] py-[9px] text-ink 
+        href="#platters"
+        className="pointer-events-auto rounded-full border border-ink
+        bg-transparent px-[18px] py-[9px] text-ink
         transition-colors duration-200 hover:bg-ink hover:text-bg"
       >
-        Order
+        Cart{count > 0 ? ` · ${count}` : ''}
       </a>
 
       </nav>

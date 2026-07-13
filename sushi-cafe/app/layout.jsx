@@ -3,6 +3,7 @@ import Nav from '@/components/Nav'
 import SiteShell from '@/components/SiteShell'
 import CustomCursor from '@/components/CustomCursor'
 import LenisProvider from '@/components/LenisProvider'
+import { CartProvider } from '@/components/CartProvider'
 import './globals.css'
 
 const shippori = Shippori_Mincho({
@@ -53,10 +54,12 @@ export default function RootLayout({ children }) {
       <body>
         <CustomCursor />
         <LenisProvider>
-          <SiteShell>
-            <Nav />
-            {children}
-          </SiteShell>
+          <CartProvider>
+            <SiteShell>
+              <Nav />
+              {children}
+            </SiteShell>
+          </CartProvider>
         </LenisProvider>
       </body>
     </html>
