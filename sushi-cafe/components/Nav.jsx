@@ -41,7 +41,7 @@ export default function Nav() {
         bg-transparent px-[18px] py-[9px] text-ink
         transition-colors duration-200 hover:bg-ink hover:text-bg"
       >
-        Cart{count > 0 ? ` · ${count}` : ''}
+        Cart{count > 0 ? `  ${count}` : ''}
       </a>
 
       </nav>
