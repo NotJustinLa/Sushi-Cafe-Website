@@ -76,15 +76,17 @@ export default function Hero() {
             </motion.h1>
 
             {/* Sub Copy */}
-            <motion.p
+            <motion.div
                 variants={fadeUp}
                 transition={{ duration: 0.7, ease: [0.2, 0.8, 0.2, 1] }}
                 className="mt-7 max-w-[55ch] text-[clamp(16px,1.4vw,19px)] 
                 leading-[1.5] text-ink-soft"
             >
-                A family sushi spot on Doncaster Road. John and family, rolling fast,
-                fresh nigiri, sashimi and rolls in Balwyn North since 2013.
-            </motion.p>
+                <p>A family sushi spot on Doncaster Road. </p>
+                
+                <p>John and family, rolling fast,
+                fresh nigiri, sashimi and rolls in Balwyn North since 2013.</p>
+            </motion.div>
 
             {/* Meta row */}
             <motion.div
@@ -92,7 +94,7 @@ export default function Hero() {
             transition={{ duration: 0.7, ease: [0.2, 0.8, 0.2, 1] }}
             className="mt-12 flex flex-wrap gap-7 font-mono text-[11px] uppercase tracking-[0.18em] text-ink-mute"
             >
-            {["Est. 2013", "Balwyn North · VIC", "46+ items daily"].map((item) => (
+            {["Est. 2013", "Balwyn North · VIC"].map((item) => (
                 <span
                 key={item}
                 className="inline-flex items-center gap-2 before:h-1 before:w-1 before:rounded-full before:bg-red before:content-['']"
