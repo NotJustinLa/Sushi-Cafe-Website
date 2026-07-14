@@ -1,28 +1,12 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import SplitWord from './SplitWord'
 
 const fadeUp = {
     hidden: { opacity: 0, y: 16},
     show: { opacity: 1, y: 0 },
 };
-
-function SplitWord({ children }) {
-    return (
-        <span style={{ display: 'inline-block' }}>
-            {[...children].map((char, i) => (
-                <motion.span
-                    key={i}
-                    style={{ display: 'inline-block' }}
-                    whileHover={{ y: -10 }}
-                    transition={{ type: 'spring', stiffness: 400, damping: 15 }}
-                >
-                    {char}
-                </motion.span>
-            ))}
-        </span>
-    )
-}
 
 // Full-viewport hero section with staggered fade-up entrance animations and decorative elements.
 export default function Hero() {
@@ -83,7 +67,7 @@ export default function Hero() {
             <motion.h1
                 variants={fadeUp}
                 transition={{ duration: 0.85, ease: [0.2, 0.8, 0.2, 1] }}
-                className="m-0 max-w-[9ch] font-display text-[clamp(72px,14vw,220px)] font-bold italic leading-[0.9] tracking-[-0.02em]"
+                className="m-0 max-w-[9ch] font-display text-[clamp(72px,14vw,220px)] font-bold italic leading-none tracking-[-0.02em] gap-[0.05em]"
             >
                 <span className="block"><SplitWord>Sushi</SplitWord></span>
                 <span className="block">

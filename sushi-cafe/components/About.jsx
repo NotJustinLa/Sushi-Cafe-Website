@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import Hanko from './Hanko'
+import SplitWord from './SplitWord'
 
 const fadeUp = {
     hidden: { opacity: 0, y: 16},
@@ -51,11 +52,11 @@ export default function About() {
                     <motion.h2
                         variants={fadeUp}
                         transition={{ duration: 0.8, ease: [0.2, 0.8, 0.2, 1] }}
-                        className="mb-9 mt-6 max-w-[20ch] font-display text-[clamp(44px,5vw,88px)] font-bold leading-[0.95] tracking-[-0.015em] text-balance"
+                        className="mb-9 mt-6 max-w-[20ch] font-display text-[clamp(44px,5vw,88px)] font-bold leading-[0.95] tracking-[-0.015em] text-balance "
                     >
-                        <p>One family.</p>
-                        <em className="italic text-red">Thirteen years.</em>{' '}
-                        <p>A whole lot of fish.</p>
+                        <span><SplitWord>One family.</SplitWord></span>
+                        <em className="italic text-red"><SplitWord>Thirteen years.</SplitWord></em>{' '}
+                        <span><SplitWord>A whole lot of fish.</SplitWord></span>
                     </motion.h2>
 
                     {/* Copy + quote */}

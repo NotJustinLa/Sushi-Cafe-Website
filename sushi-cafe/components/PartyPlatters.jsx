@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import { useCart } from './CartProvider'
+import SplitWord from './SplitWord'
 
 const fadeUp = {
     hidden: { opacity: 0, y: 16 },
@@ -169,8 +170,8 @@ export default function PartyPlatters() {
                     transition={{ duration: 0.8, ease: [0.2, 0.8, 0.2, 1] }}
                     className="mb-30 mt-1 ml-10 max-w-[18ch] font-display text-[clamp(40px,5vw,80px)] font-bold leading-[0.95] tracking-[-0.015em] text-balance"
                 >
-                    Party{' '}
-                    <em className="italic text-red">platters</em>
+                    <SplitWord>Party </SplitWord>
+                    <em className="italic text-red"><SplitWord>platters</SplitWord></em>
                 </motion.h2>
 
                 {/* One horizontal snap strip — every platter in a single scroll */}
