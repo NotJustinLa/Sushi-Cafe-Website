@@ -13,20 +13,23 @@ const fadeUp = {
 // A platter is EITHER a single price ({ price })
 // OR a set of size variants ({ sizes: [{ label, price }, …] }).
 // The card renders a size toggle only when `sizes` is present.
+// `image` points at a file in /public (served from the site root). Paths are
+// case-sensitive on the deployed server, so they must match the filenames exactly.
 const platters = [
     {
         name: 'Handroll Platter',
+        image: '/Handroll_Platter.JPG',
         sizes: [
             { label: 'Small', price: 55 },
             { label: 'Medium', price: 67 },
             { label: 'Large', price: 80 },
         ],
     },
-    { name: 'Salmon Sashimi Platter', price: 120 },
-    { name: 'Deluxe Platter for Two', price: 65 },
-    { name: 'Mixed Sushi Platter', price: 55 },
-    { name: 'Assorted Sushi Platter', price: 78 },
-    { name: 'Sushi & Sashimi Platter', price: 120 },
+    { name: 'Salmon Sashimi Platter', image: '/Sashimi_Platter.JPG', price: 120 },
+    { name: 'Deluxe Platter for Two', image: '/Deluxe_Platter_for_Two.JPG', price: 65 },
+    { name: 'Mixed Sushi Platter', image: '/Mixed_Sushi_Platter.JPG', price: 55 },
+    { name: 'Assorted Sushi Platter', image: '/Assorted_Sushi_Platter.JPG', price: 78 },
+    { name: 'Sushi & Sashimi Platter', image: '/Sushi_and_Sashimi_Platter.JPG', price: 120 },
 ]
 
 // Turn a name/size into a stable cart id: "Handroll Platter" + "Medium"
@@ -37,7 +40,7 @@ const slug = (s) =>
 // One platter card. Shows a size toggle when the item has `sizes`. The image
 // area is intentionally an empty box — drop an <img> into the slot when you
 // have photos.
-function PlatterCard({ name, price, sizes }) {
+function PlatterCard({ name, price, sizes, image }) {
     const { addItem } = useCart()
     const hasSizes = Array.isArray(sizes) && sizes.length > 0
 
@@ -69,8 +72,16 @@ function PlatterCard({ name, price, sizes }) {
             transition={{ duration: 0.6, ease: [0.2, 0.8, 0.2, 1] }}
             className="group flex h-full flex-col overflow-hidden rounded-lg border border-rule bg-bg-paper"
         >
-            {/* IMAGE SLOT — empty on purpose. Replace this div with your <img>. */}
-            <div aria-hidden="true" className="aspect-[4/3] w-full bg-bg-deep" />
+            {/* IMAGE SLOT — renders the photo when present, else a blank box. */}
+            {image ? (
+                <img
+                    src={image}
+                    alt={name}
+                    className="aspect-[4/3] w-full object-cover"
+                />
+            ) : (
+                <div aria-hidden="true" className="aspect-[4/3] w-full bg-bg-deep" />
+            )}
 
             <div className="flex flex-1 flex-col gap-4 p-6">
                 {/* Name + live price */}
