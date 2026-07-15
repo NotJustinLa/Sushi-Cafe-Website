@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { motion } from 'framer-motion'
+import { motion, useScroll, useMotionValueEvent } from 'framer-motion'
 import { useCart } from './CartProvider'
 import SplitWord from './SplitWord'
 
@@ -128,72 +128,86 @@ function PlatterCard({ name, price, sizes }) {
 // "Party platters" — grouped horizontal snap strips of order-ahead platters
 // with add-to-cart, mirroring the eyebrow / headline pattern from About.
 export default function PartyPlatters() {
+    const wrapperRef = useRef(null)
     const stripRef = useRef(null)
 
-    // Turn a vertical wheel over the strip into horizontal scroll, and keep the
-    // page still. We attach a NON-passive native listener (React's onWheel is
-    // passive, so preventDefault would be ignored) and stopPropagation so the
-    // event never reaches Lenis's window listener — otherwise the page scrolls.
-    useEffect(() => {
-        const el = stripRef.current
-        if (!el) return
+    const { scrollYProgress } = useScroll({
+        target: wrapperRef,
+        offset: ['start start', 'end end'],
+    })
 
-        function onWheel(e) {
-            // Nothing to scroll horizontally (e.g. very wide screen) → let the
-            // page scroll normally.
-            if (el.scrollWidth <= el.clientWidth) return
-            // Let native horizontal gestures (trackpad swipe) pass through.
-            if (e.deltaY === 0) return
-            e.preventDefault()
-            e.stopPropagation()
-            el.scrollLeft += e.deltaY
+    useMotionValueEvent(scrollYProgress, 'change', (progress) => {
+    const strip = stripRef.current
+    if (!strip) return 
+    const maxScroll = strip.scrollWidth - strip.clientWidth
+    if (maxScroll <= 0 ) return // dont need to scroll as the scroll width fits
+    strip.scrollLeft = progress * maxScroll
+ })
+
+ //dynamicaly set the wrapper height 
+    const [wrapperHeight, setWrapperHeight] = useState('100vh')
+
+    useEffect(() => {
+        const strip = stripRef.current
+        if (!strip) return
+
+        function recalculate() {
+            const maxScroll = strip.scrollWidth - strip.clientWidth
+            setWrapperHeight(`calc(100vh + ${maxScroll}px)`)
         }
 
-        el.addEventListener('wheel', onWheel, { passive: false })
-        return () => el.removeEventListener('wheel', onWheel)
+        recalculate()
+        const observer = new ResizeObserver(recalculate)
+        observer.observe(strip)
+        return () => observer.disconnect()
     }, [])
-
+        
     return (
-        <section
-            id="platters"
-            className="relative border-t border-rule px-[var(--pad-x)] py-[120px]"
-        >
-            <div className="mx-auto w-full max-w-[var(--container-maxw)]">
+        // The wrapper is a tall invisible spacer. Its height = 100vh + strip's
+        // scroll width, so the section stays pinned for exactly as long as it
+        // takes to scroll through all the cards.
+        <div ref={wrapperRef} style={{ height: wrapperHeight }}>
+            <section
+                id="platters"
+                className="sticky top-0 flex h-screen flex-col justify-center overflow-hidden border-t border-rule px-[var(--pad-x)]"
+            >
+                <div className="mx-auto w-full max-w-[var(--container-maxw)]">
 
+                    {/* Headline */}
+                    <motion.h2
+                        initial="hidden"
+                        whileInView="show"
+                        viewport={{ once: true, amount: 0.6 }}
+                        variants={fadeUp}
+                        transition={{ duration: 0.8, ease: [0.2, 0.8, 0.2, 1] }}
+                        className="mb-10 mt-1 ml-10 max-w-[18ch] font-display text-[clamp(40px,5vw,80px)] font-bold leading-[0.95] tracking-[-0.015em] text-balance"
+                    >
+                        <SplitWord>Party </SplitWord>
+                        <em className="italic text-red"><SplitWord>platters</SplitWord></em>
+                    </motion.h2>
 
-                {/* Headline + intro */}
-                <motion.h2
-                    initial="hidden"
-                    whileInView="show"
-                    viewport={{ once: true, amount: 0.6 }}
-                    variants={fadeUp}
-                    transition={{ duration: 0.8, ease: [0.2, 0.8, 0.2, 1] }}
-                    className="mb-30 mt-1 ml-10 max-w-[18ch] font-display text-[clamp(40px,5vw,80px)] font-bold leading-[0.95] tracking-[-0.015em] text-balance"
-                >
-                    <SplitWord>Party </SplitWord>
-                    <em className="italic text-red"><SplitWord>platters</SplitWord></em>
-                </motion.h2>
+                    {/* Card strip — overflow-x-auto on mobile (native touch scroll),
+                        overflow-hidden on md+ (programmatic drive via scrollLeft) */}
+                    <motion.div
+                        ref={stripRef}
+                        initial="hidden"
+                        whileInView="show"
+                        viewport={{ once: true, amount: 0.2 }}
+                        transition={{ staggerChildren: 0.1 }}
+                        className="-mx-[var(--pad-x)] flex gap-6 overflow-x-auto md:overflow-hidden scroll-px-[var(--pad-x)] px-[var(--pad-x)] pb-4 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+                    >
+                        {platters.map((item) => (
+                            <div
+                                key={item.name}
+                                className="w-[300px] shrink-0"
+                            >
+                                <PlatterCard {...item} />
+                            </div>
+                        ))}
+                    </motion.div>
 
-                {/* One horizontal snap strip — every platter in a single scroll */}
-                <motion.div
-                    ref={stripRef}
-                    data-lenis-prevent
-                    initial="hidden"
-                    whileInView="show"
-                    viewport={{ once: true, amount: 0.2 }}
-                    transition={{ staggerChildren: 0.1 }}
-                    className="-mx-[var(--pad-x)] flex snap-x snap-mandatory gap-6 overflow-x-auto scroll-px-[var(--pad-x)] px-[var(--pad-x)] pb-4 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-                >
-                    {platters.map((item) => (
-                        <div
-                            key={item.name}
-                            className="w-[300px] shrink-0 snap-start"
-                        >
-                            <PlatterCard {...item} />
-                        </div>
-                    ))}
-                </motion.div>
-            </div>
-        </section>
+                </div>
+            </section>
+        </div>
     )
 }

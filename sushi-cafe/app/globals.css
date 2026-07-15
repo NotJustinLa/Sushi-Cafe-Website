@@ -58,7 +58,11 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
-  overflow-x: hidden;
+  /* NOTE: intentionally NO overflow here. Any overflow-x on html/body makes the
+     root a scroll container (overflow-y computes away from `visible`), which
+     breaks `position: sticky` — the Party Platters scroll-lock relies on it.
+     Horizontal overflow from decorations is clipped on the Hero section itself
+     (overflow-x-clip) instead, so the viewport stays the clean scroll root. */
 }
 
 /* Lenis smooth-scroll classes */

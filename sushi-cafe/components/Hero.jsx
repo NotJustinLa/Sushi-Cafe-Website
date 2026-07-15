@@ -11,10 +11,10 @@ const fadeUp = {
 // Full-viewport hero section with staggered fade-up entrance animations and decorative elements.
 export default function Hero() {
     return (
-        <section 
-        id="hero" 
+        <section
+        id="hero"
         className="relative isolate grid min-h-screen grid-cols-1
-        items-center px-[var(--pad-x)] pb-20 pt-[90px]"
+        items-center overflow-x-clip px-[var(--pad-x)] pb-20 pt-[90px]"
         >
         {/* Faint background circle - decorative */}
         <div
@@ -79,7 +79,7 @@ export default function Hero() {
             <motion.div
                 variants={fadeUp}
                 transition={{ duration: 0.7, ease: [0.2, 0.8, 0.2, 1] }}
-                className="mt-7 max-w-[55ch] text-[clamp(16px,1.4vw,19px)] 
+                className="mt-7 max-w-[45ch] text-[clamp(16px,1.4vw,19px)] 
                 leading-[1.5] text-ink-soft"
             >
                 <p>A family sushi spot on Doncaster Road. </p>

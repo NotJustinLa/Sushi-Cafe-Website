@@ -66,7 +66,7 @@ export default function About() {
                         className="max-w-[48ch] text-[clamp(16px,1.3vw,19px)] leading-[1.6] text-ink-soft"
                     >
                         <p className="mt-10 border-l-2 border-red pl-[22px] font-display text-[clamp(20px,1vw,26px)] italic leading-[1.35] text-ink">
-                            Hi — we're John and family. We've been rolling sushi on Doncaster Road
+                            Hi, we're John and family. We've been rolling sushi on Doncaster Road
                             for 13 years now. What started as a dad with a passion for good food
                             has turned into one of the neighbourhood's favourite quick stops.
                         </p>
