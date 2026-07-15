@@ -153,13 +153,30 @@ export default function PartyPlatters() {
 
         function recalculate() {
             const maxScroll = strip.scrollWidth - strip.clientWidth
-            setWrapperHeight(`calc(100vh + ${maxScroll}px)`)
+            // Guard the 0 case: a wrapper of exactly 100vh makes scroll progress
+            // degenerate (start === end) and the strip snaps instantly to the end.
+            setWrapperHeight(maxScroll > 0 ? `calc(100vh + ${maxScroll}px)` : '100vh')
         }
 
-        recalculate()
+        // Measure AFTER layout settles. scrollWidth only reaches its final value
+        // once the cards have flowed to their 300px widths; a synchronous read can
+        // catch a pre-layout frame where scrollWidth === clientWidth (maxScroll 0).
+        let raf = requestAnimationFrame(() =>
+            (raf = requestAnimationFrame(recalculate))
+        )
+
+        // ResizeObserver catches the strip's own box changing (e.g. viewport
+        // resize shrinking clientWidth); the resize listener is a belt-and-braces
+        // fallback since scrollWidth growth alone won't trip the observer.
         const observer = new ResizeObserver(recalculate)
         observer.observe(strip)
-        return () => observer.disconnect()
+        window.addEventListener('resize', recalculate)
+
+        return () => {
+            cancelAnimationFrame(raf)
+            observer.disconnect()
+            window.removeEventListener('resize', recalculate)
+        }
     }, [])
         
     return (
@@ -180,11 +197,23 @@ export default function PartyPlatters() {
                         viewport={{ once: true, amount: 0.6 }}
                         variants={fadeUp}
                         transition={{ duration: 0.8, ease: [0.2, 0.8, 0.2, 1] }}
-                        className="mb-10 mt-1 ml-10 max-w-[18ch] font-display text-[clamp(40px,5vw,80px)] font-bold leading-[0.95] tracking-[-0.015em] text-balance"
+                        className="mb-4 max-w-[18ch] font-display text-[clamp(40px,5vw,80px)] font-bold leading-[0.95] tracking-[-0.015em] text-balance"
                     >
                         <SplitWord>Party </SplitWord>
                         <em className="italic text-red"><SplitWord>platters</SplitWord></em>
                     </motion.h2>
+
+                    {/* descriptions */}
+                    <motion.p
+                        initial="hidden"
+                        whileInView="show"
+                        viewport={{ once: true, amount: 0.6 }}
+                        variants={fadeUp}
+                        transition={{ duration: 0.7, ease: [0.2, 0.8, 0.2, 1] }}
+                        className="mb-8 mt-8 max-w-[45ch] text-[clamp(16px,1.3vw,19px)] leading-[1.6] text-ink-soft"
+                    >
+                        Order for pickup.   
+                    </motion.p>
 
                     {/* Card strip — overflow-x-auto on mobile (native touch scroll),
                         overflow-hidden on md+ (programmatic drive via scrollLeft) */}
