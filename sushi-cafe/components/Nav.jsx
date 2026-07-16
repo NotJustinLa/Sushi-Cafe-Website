@@ -12,8 +12,8 @@ export default function Nav() {
     return (
       <nav className="pointer-events-none fixed inset-x-0 top-0 
       z-50 flex items-center justify-between px-[var(--pad-x)] 
-      py-[22px] font-mono text-xs uppercase tracking-[0.14em] 
-      text-ink-mute">
+      py-[10px] font-mono text-xs uppercase tracking-[0.14em] 
+      text-ink-mute bg-[var(--color-bg)]/99">
 
         { /* Brand */}
         <a
