@@ -82,7 +82,7 @@ export default function Hero() {
                 className="mt-7 max-w-[45ch] text-[clamp(16px,1.4vw,19px)] 
                 leading-[1.5] text-ink-soft"
             >
-                <p>A family sushi spot on Doncaster Road. </p>
+                <p>A family owned sushi spot on Doncaster Road. </p>
                 
                 <p>John and family, rolling fast,
                 fresh nigiri, sashimi and rolls in Balwyn North since 2013.</p>

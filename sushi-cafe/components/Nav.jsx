@@ -13,7 +13,7 @@ export default function Nav() {
       <nav className="pointer-events-none fixed inset-x-0 top-0 
       z-50 flex items-center justify-between px-[var(--pad-x)] 
       py-[10px] font-mono text-xs uppercase tracking-[0.14em] 
-      text-ink-mute bg-[var(--color-bg)]/99">
+      text-ink-mute bg-[var(--color-bg)] shadow-sm">
 
         { /* Brand */}
         <a
@@ -30,7 +30,7 @@ export default function Nav() {
         {/* Links — hidden on mobile */}
         <div className="pointer-events-auto hidden gap-[28px] md:flex">
           <a href="#about" className="transition-colors duration-200 hover:text-ink">About</a>
-          <a href="#menu"  className="transition-colors duration-200 hover:text-ink">Menu</a>
+          <a href="#menu"  className="transition-colors duration-200 hover:text-ink">Order</a>
           <a href="#visit" className="transition-colors duration-200 hover:text-ink">Visit</a>
         </div>
 
