@@ -1,3 +1,6 @@
+'use client'
+
+import posthog from 'posthog-js'
 
 const btnBase =
     'inline-flex items-center rounded-full px-[26px] py-4 font-mono text-[12px] ' +
@@ -23,6 +26,7 @@ export default function Visit() {
                     <div className="mt-10 flex flex-wrap gap-[14px]">
                         <a
                             href="tel:+61398570000"
+                            onClick={() => posthog.capture('call_to_order_clicked')}
                             className={`${btnBase} border border-red bg-red hover:border-red-deep hover:bg-red-deep`}
                         >
                             Call to Order
@@ -31,6 +35,7 @@ export default function Visit() {
                             href="https://maps.google.com/?q=292+Doncaster+Rd+Balwyn+North+VIC+3104"
                             target="_blank"
                             rel="noopener"
+                            onClick={() => posthog.capture('get_directions_clicked')}
                             className={`${btnBase} border border-bg/30 bg-transparent hover:border-bg`}
                         >
                             Get Directions
@@ -65,6 +70,7 @@ export default function Visit() {
                         <p className="mb-1 font-display text-[clamp(18px,1.5vw,22px)] leading-[1.4]">
                             <a
                                 href="tel:+61398570000"
+                                onClick={() => posthog.capture('phone_number_clicked')}
                                 className="border-b border-bg/30 text-inherit no-underline hover:border-bg"
                             >
                                 (03) 9857 0000

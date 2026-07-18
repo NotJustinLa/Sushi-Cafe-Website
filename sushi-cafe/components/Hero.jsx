@@ -1,6 +1,7 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { useRef } from 'react'
+import { motion, useScroll, useTransform } from 'framer-motion'
 import SplitWord from './SplitWord'
 
 const fadeUp = {
@@ -10,8 +11,23 @@ const fadeUp = {
 
 // Full-viewport hero section with staggered fade-up entrance animations and decorative elements.
 export default function Hero() {
+    const sectionRef = useRef(null)
+
+    // Scroll-linked parallax: track progress as the hero scrolls out of view.
+    // 0 = section top aligned with viewport top (fully in view), 1 = section
+    // bottom has reached the viewport top (fully scrolled past).
+    const { scrollYProgress } = useScroll({
+        target: sectionRef,
+        offset: ['start start', 'end start'],
+    })
+
+    // Drift the content upward as you scroll down. Bound to scroll position, so
+    // scrolling back up reverses the motion for free.
+    const contentY = useTransform(scrollYProgress, [0, 1], [0, -120])
+
     return (
         <section
+        ref={sectionRef}
         id="hero"
         className="relative isolate grid min-h-screen grid-cols-1
         items-center overflow-x-clip px-[var(--pad-x)] pb-20 pt-[90px]"
@@ -56,11 +72,12 @@ export default function Hero() {
 
         {/* staggered content container*/}
         <motion.div
-            className="relative mx-auto w-full 
+            className="relative mx-auto w-full
             max-w-[var(--container-maxw)]"
             initial="hidden"
             animate="show"
             transition={{ staggerChildren: 0.12, delayChildren: 1.2 }}
+            style={{ y: contentY }}
         >
 
             {/* Main headline */}

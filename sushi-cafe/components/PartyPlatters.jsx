@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { motion, useScroll, useMotionValueEvent } from 'framer-motion'
+import posthog from 'posthog-js'
 import { useCart } from './CartProvider'
 import SplitWord from './SplitWord'
 
@@ -19,17 +20,43 @@ const platters = [
     {
         name: 'Handroll Platter',
         image: '/Handroll_Platter.JPG',
+        description: '48 pieces of assorted handrolls',
         sizes: [
             { label: 'Small', price: 55 },
             { label: 'Medium', price: 67 },
             { label: 'Large', price: 80 },
         ],
     },
-    { name: 'Salmon Sashimi Platter', image: '/Sashimi_Platter.JPG', price: 120 },
-    { name: 'Deluxe Platter for Two', image: '/Deluxe_Platter_for_Two.JPG', price: 65 },
-    { name: 'Mixed Sushi Platter', image: '/Mixed_Sushi_Platter.JPG', price: 55 },
-    { name: 'Assorted Sushi Platter', image: '/Assorted_Sushi_Platter.JPG', price: 78 },
-    { name: 'Sushi & Sashimi Platter', image: '/Sushi_and_Sashimi_Platter.JPG', price: 120 },
+    {
+        name: 'Salmon Sashimi Platter',
+        image: '/Sashimi_Platter.JPG',
+        description: '52 slices of fresh salmon',
+        price: 120,
+    },
+    {
+        name: 'Deluxe Platter for Two',
+        image: '/Deluxe_Platter_for_Two.JPG',
+        description: '34 pieces of sushi, rolls & sashimi to share',
+        price: 65,
+    },
+    {
+        name: 'Mixed Sushi Platter',
+        image: '/Mixed_Sushi_Platter.JPG',
+        description: '26 pieces',
+        price: 55,
+    },
+    {
+        name: 'Assorted Sushi Platter',
+        image: '/Assorted_Sushi_Platter.JPG',
+        description: '42 pieces',
+        price: 78,
+    },
+    {
+        name: 'Sushi & Sashimi Platter',
+        image: '/Sushi_and_Sashimi_Platter.JPG',
+        description: '64 pieces',
+        price: 120,
+    },
 ]
 
 // Turn a name/size into a stable cart id: "Handroll Platter" + "Medium"
@@ -40,7 +67,7 @@ const slug = (s) =>
 // One platter card. Shows a size toggle when the item has `sizes`. The image
 // area is intentionally an empty box — drop an <img> into the slot when you
 // have photos.
-function PlatterCard({ name, price, sizes, image }) {
+function PlatterCard({ name, price, sizes, image, description }) {
     const { addItem } = useCart()
     const hasSizes = Array.isArray(sizes) && sizes.length > 0
 
@@ -60,6 +87,11 @@ function PlatterCard({ name, price, sizes, image }) {
             name,
             variant: activeLabel,
             price: activePrice,
+        })
+        posthog.capture('platter_added_to_cart', {
+            platter_name: name,
+            platter_variant: activeLabel ?? null,
+            platter_price: activePrice,
         })
         // Tiny confirmation flash on the button.
         setJustAdded(true)
@@ -94,6 +126,12 @@ function PlatterCard({ name, price, sizes, image }) {
                     </span>
                 </div>
 
+                {description && (
+                    <p className="m-0 text-[14px] leading-[1.5] text-ink-mute">
+                        {description}
+                    </p>
+                )}
+
                 {/* Handroll: S / M / L toggle. */}
                 {hasSizes && (
                     <div
@@ -107,7 +145,14 @@ function PlatterCard({ name, price, sizes, image }) {
                                 <button
                                     key={s.label}
                                     type="button"
-                                    onClick={() => setSizeIdx(i)}
+                                    onClick={() => {
+                                        setSizeIdx(i)
+                                        posthog.capture('platter_size_selected', {
+                                            platter_name: name,
+                                            size_label: s.label,
+                                            size_price: s.price,
+                                        })
+                                    }}
                                     aria-pressed={selected}
                                     className={[
                                         'flex-1 rounded-md border py-2 font-mono text-[11px] uppercase tracking-[0.14em] transition-colors duration-200',

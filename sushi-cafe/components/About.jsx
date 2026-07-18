@@ -1,6 +1,7 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { useRef } from 'react'
+import { motion, useScroll, useTransform } from 'framer-motion'
 import Hanko from './Hanko'
 import SplitWord from './SplitWord'
 
@@ -10,13 +11,30 @@ const fadeUp = {
 }
 
 export default function About() {
+    const sectionRef = useRef(null)
+
+    // Scroll-linked progress across the whole time the section passes through
+    // the viewport: 0 as it enters from the bottom, 1 as it leaves off the top.
+    const { scrollYProgress } = useScroll({
+        target: sectionRef,
+        offset: ['start end', 'end start'],
+    })
+
+    // Slide the big title and the smaller quote in opposite directions on the
+    // x-axis. The movement is concentrated at entry (0 → 0.2) and exit
+    // (0.8 → 1); through the middle they sit still. Bound to scroll position,
+    // so scrolling back up reverses it.
+    const titleX = useTransform(scrollYProgress, [0, 0.4, 0.6, 1], [-24, 0, 0, 24])
+    const quoteX = useTransform(scrollYProgress, [0, 0.4, 0.6, 1], [24, 0, 0, -24])
+
     return (
         <section
+            ref={sectionRef}
             id="about"
-            className="relative min-h-screen border-t 
+            className="relative min-h-screen overflow-x-clip border-t
             border-rule px-[var(--pad-x)] py-[120px]"
 
-        >   
+        >
         
             <div className="mx-auto grid w-full max-w-[var(--container-maxw)]
             items-center gap-20
@@ -52,6 +70,7 @@ export default function About() {
                     <motion.h2
                         variants={fadeUp}
                         transition={{ duration: 0.8, ease: [0.2, 0.8, 0.2, 1] }}
+                        style={{ x: titleX }}
                         className="mb-9 mt-6 max-w-[20ch] font-display text-[clamp(44px,5vw,88px)] font-bold leading-[0.95] tracking-[-0.015em] text-balance "
                     >
                         <span><SplitWord>One family.</SplitWord></span>
@@ -63,6 +82,7 @@ export default function About() {
                     <motion.div
                         variants={fadeUp}
                         transition={{ duration: 0.7, ease: [0.2, 0.8, 0.2, 1] }}
+                        style={{ x: quoteX }}
                         className="max-w-[48ch] text-[clamp(16px,1.3vw,19px)] leading-[1.6] text-ink-soft"
                     >
                         <p className="mt-10 border-l-2 border-red pl-[22px] font-display text-[clamp(20px,1vw,26px)] italic leading-[1.35] text-ink">
