@@ -25,9 +25,9 @@ export default function Nav() {
 
         { /* Brand */}
         <a
-          href="#hero"
-          onClick={(e) => scrollTo(e, '#hero')}
-          className="pointer-events-auto flex items-center gap-[10px] 
+          href="/"
+          onClick={(e) => { e.preventDefault(); lenis ? lenis.scrollTo(0) : window.scrollTo(0, 0) }}
+          className="pointer-events-auto flex items-center gap-[10px]
           font-display text-[22px] font-bold normal-case italic 
           tracking-normal text-ink"
         >
