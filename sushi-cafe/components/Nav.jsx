@@ -1,6 +1,7 @@
 'use client'
 
 import { useCart } from './CartProvider'
+import { useLenis } from './LenisProvider'
 
 /**
  * Fixed top navigation bar with brand logo, section links, and an order CTA.
@@ -9,6 +10,13 @@ import { useCart } from './CartProvider'
  */
 export default function Nav() {
     const { count } = useCart()
+    const lenis = useLenis()
+
+    function scrollTo(e, target) {
+      if (!lenis) return
+      e.preventDefault()
+      lenis.scrollTo(target)
+    }
     return (
       <nav className="pointer-events-none fixed inset-x-0 top-0 
       z-50 flex items-center justify-between px-[var(--pad-x)] 
@@ -18,6 +26,7 @@ export default function Nav() {
         { /* Brand */}
         <a
           href="#hero"
+          onClick={(e) => scrollTo(e, '#hero')}
           className="pointer-events-auto flex items-center gap-[10px] 
           font-display text-[22px] font-bold normal-case italic 
           tracking-normal text-ink"
@@ -29,9 +38,9 @@ export default function Nav() {
 
         {/* Links — hidden on mobile */}
         <div className="pointer-events-auto hidden gap-[28px] md:flex">
-          <a href="#about" className="transition-colors duration-200 hover:text-ink">About</a>
-          <a href="#menu"  className="transition-colors duration-200 hover:text-ink">Order</a>
-          <a href="#visit" className="transition-colors duration-200 hover:text-ink">Visit</a>
+          <a href="#about" onClick={(e) => scrollTo(e, '#about')} className="transition-colors duration-200 hover:text-ink">About</a>
+          <a href="#platters" onClick={(e) => scrollTo(e, '#platters')} className="transition-colors duration-200 hover:text-ink">Order</a>
+          <a href="#visit" onClick={(e) => scrollTo(e, '#visit')} className="transition-colors duration-200 hover:text-ink">Visit</a>
         </div>
 
       {/* CTA */}
