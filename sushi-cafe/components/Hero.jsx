@@ -25,6 +25,14 @@ export default function Hero() {
     // scrolling back up reverses the motion for free.
     const contentY = useTransform(scrollYProgress, [0, 1], [0, -120])
 
+    // Rising-sun arc for the background circle. As you scroll down it sweeps
+    // up-and-left along a curved path: x travels leftward while y climbs, with
+    // the mid-stop making the trajectory curve (an arc) rather than a straight
+    // diagonal. vw/vh keep it responsive; at progress 0 both are zero so the
+    // sun starts exactly where it sits statically. Reverses on scroll-up.
+    const sunX = useTransform(scrollYProgress, [0, 0.5, 1], ['0vw', '-28vw', '-55vw'])
+    const sunY = useTransform(scrollYProgress, [0, 0.5, 1], ['0vh', '-28vh', '-34vh'])
+
     return (
         <section
         ref={sectionRef}
@@ -32,13 +40,20 @@ export default function Hero() {
         className="relative isolate grid min-h-screen grid-cols-1
         items-center overflow-x-clip px-[var(--pad-x)] pb-20 pt-[90px]"
         >
-        {/* Faint background circle - decorative */}
+        {/* Faint background circle - decorative "sun". Outer div holds the base
+            position + vertical centering (its own transform); the inner motion
+            layer carries the scroll-linked arc transform so the two don't clash. */}
         <div
             aria-hidden="true"
             className="pointer-events-none absolute right-[-8vw]
             top-1/2 -z-10 aspect-square w-[clamp(100px,48vw,820px)]
-            -translate-y-1/2 rounded-full bg-red opacity-[0.1]"
-        />
+            -translate-y-1/2"
+        >
+            <motion.div
+                style={{ x: sunX, y: sunY }}
+                className="h-full w-full rounded-full bg-red opacity-[0.1]"
+            />
+        </div>
 
         {/* Aoi leaf motifs - decorative. Two only: top-left and bottom-right,
             each with its tip pointing into the middle of the screen. The leaf
