@@ -46,7 +46,6 @@ next-env.d.ts
 /qr/
 
 # test output
-/coverage/
 /test-results/
 /playwright-report/
 /playwright/.cache/
