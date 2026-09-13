@@ -16,7 +16,7 @@ export default function Visit() {
 
                     {/* Exactly one red italic accent word — the site's signature move */}
                     <h2 className="mb-9 mt-6 font-display text-[clamp(48px,7vw,104px)] font-bold leading-[0.95] tracking-[-0.015em]">
-                        Come sit at<br />the <em className="italic text-red">counter</em>.
+                        <em className="italic text-red">Contact</em>
                     </h2>
 
                     <div className="mt-10 flex flex-wrap gap-[14px]">
