@@ -11,21 +11,10 @@ const COLUMNS = [
     { status: 'ready', title: 'Ready', empty: 'Nothing waiting to go out' },
 ]
 
-// A soft two-note chime, made with the Web Audio API (no sound file needed).
-function playChime(ctx) {
-    const t = ctx.currentTime
-    for (const [freq, start] of [[880, 0], [1320, 0.16]]) {
-        const osc = ctx.createOscillator()
-        const gain = ctx.createGain()
-        osc.type = 'sine'
-        osc.frequency.value = freq
-        gain.gain.setValueAtTime(0.0001, t + start)
-        gain.gain.exponentialRampToValueAtTime(0.35, t + start + 0.02)
-        gain.gain.exponentialRampToValueAtTime(0.0001, t + start + 0.45)
-        osc.connect(gain).connect(ctx.destination)
-        osc.start(t + start)
-        osc.stop(t + start + 0.5)
-    }
+// The new-order chime, played from public/sounds/chime.mp3.
+function playChime(audio) {
+    audio.currentTime = 0
+    audio.play().catch(() => {}) // ignored: browser blocked it (rare once unlocked)
 }
 
 // Keep the kitchen laptop's screen awake while this page is open.
@@ -63,7 +52,7 @@ function useWakeLock() {
 
 // The kitchen laptop: every active order, oldest first, in three columns.
 export default function KitchenBoard() {
-    const audio = useRef(null) // AudioContext once staff tap "Enable sound"
+    const audio = useRef(null) // Audio element once staff tap "Enable sound"
     const [soundOn, setSoundOn] = useState(false)
     const [notice, setNotice] = useState(null)
     useWakeLock() // keeps the kitchen screen from sleeping (no on-screen label)
@@ -83,11 +72,8 @@ export default function KitchenBoard() {
             setSoundOn(false)
             return
         }
-        const Ctx = window.AudioContext || window.webkitAudioContext
-        if (!Ctx) return setNotice('This browser can’t play sounds.')
-        audio.current = new Ctx()
-        audio.current.resume()
-        playChime(audio.current) // so staff hear what it sounds like
+        audio.current = new Audio('/sounds/chime.mp3')
+        playChime(audio.current) // so staff hear what it sounds like, and unlocks playback
         setSoundOn(true)
     }
 
