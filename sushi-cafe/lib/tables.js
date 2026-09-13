@@ -1,5 +1,6 @@
 import 'server-only'
 import { cookies } from 'next/headers'
+import { getSessionBill, getSessionTotals } from './orders'
 import { supabase } from './supabase-server'
 import { readTableToken, TABLE_COOKIE } from './table-token'
 
@@ -73,7 +74,8 @@ export async function closeTable(tableNumber) {
     return data
 }
 
-// Every table, with its open session if it has one.
+// Every table, with its open session (and that session's order count and
+// running total) if it has one.
 export async function listTables() {
     const [tables, sessions] = await Promise.all([
         supabase.from('dining_tables').select('table_number').order('table_number'),
@@ -82,11 +84,12 @@ export async function listTables() {
     if (tables.error) throw tables.error
     if (sessions.error) throw sessions.error
 
+    const totals = await getSessionTotals(sessions.data.map((s) => s.id))
     const openByTable = new Map(sessions.data.map((s) => [s.table_number, s]))
     return tables.data.map(({ table_number }) => {
         const session = openByTable.get(table_number)
         return session
-            ? { tableNumber: table_number, open: true, sessionId: session.id, openedAt: session.opened_at }
+            ? { tableNumber: table_number, open: true, sessionId: session.id, openedAt: session.opened_at, ...totals.get(session.id) }
             : { tableNumber: table_number, open: false }
     })
 }
@@ -108,5 +111,27 @@ export async function getCurrentTable() {
         tableNumber: token.tbl,
         sessionId: session.id,
         expiresAt: new Date(token.exp).toISOString(),
+    }
+}
+
+// Everything the guest's phone shows: its table and that visit's orders.
+// This is the GET /api/table response (§5), and /table renders it on the
+// server first so the page never flashes empty before the first poll.
+export async function getTableStatus() {
+    const table = await getCurrentTable()
+    if (table.status === 'no_token') {
+        return { tableNumber: null, reason: 'no_token' }
+    }
+    if (table.status === 'table_closed') {
+        return { tableNumber: table.tableNumber, open: false, reason: 'table_closed' }
+    }
+
+    const { orders, totalCents } = await getSessionBill(table.sessionId, { includeCancelled: true })
+    return {
+        tableNumber: table.tableNumber,
+        open: true,
+        expiresAt: table.expiresAt,
+        orders,
+        runningTotalCents: totalCents,
     }
 }

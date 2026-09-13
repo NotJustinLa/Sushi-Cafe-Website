@@ -1,11 +1,4 @@
 import { Shippori_Mincho, Zen_Kaku_Gothic_New, DM_Sans, JetBrains_Mono } from 'next/font/google'
-import Nav from '@/components/Nav'
-import SiteShell from '@/components/SiteShell'
-import CustomCursor from '@/components/CustomCursor'
-import LenisProvider from '@/components/LenisProvider'
-import { CartProvider } from '@/components/CartProvider'
-import CartDrawer from '@/components/CartDrawer'
-import QrScanTracker from '@/components/QrScanTracker'
 import './globals.css'
 
 const shippori = Shippori_Mincho({
@@ -48,25 +41,15 @@ export const viewport = {
   viewportFit: 'cover',
 }
 
+// Shared by everything: fonts, <html> and <body> only. The public site's
+// pieces (splash, smooth scroll, nav, cart) live in app/(site)/layout.jsx, and
+// the staff register has its own app/register/layout.jsx.
 export default function RootLayout({ children }) {
   return (
-    <html 
-    lang="en" 
+    <html
+    lang="en"
     className={`${shippori.variable} ${zenKaku.variable} ${dmSans.variable} ${jetBrains.variable}`}>
-      <body>
-        <CustomCursor />
-        <LenisProvider>
-          <CartProvider>
-            <SiteShell>
-              <Nav />
-              {children}
-            </SiteShell>
-            {/* Outside SiteShell so no section transform or the splash can clip it */}
-            <CartDrawer />
-          </CartProvider>
-          <QrScanTracker />
-        </LenisProvider>
-      </body>
+      <body>{children}</body>
     </html>
   )
 }

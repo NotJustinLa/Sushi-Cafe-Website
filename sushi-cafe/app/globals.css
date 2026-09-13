@@ -46,6 +46,13 @@
 /* Hide native cursor everywhere — CustomCursor replaces it */
 * { cursor: none !important; }
 
+/* …except the staff register (app/register), which has no red-dot cursor:
+   give it the normal one back. More specific than `*`, so it wins. */
+.native-cursor, .native-cursor * { cursor: auto !important; }
+.native-cursor :is(a, button, label, select, summary) { cursor: pointer !important; }
+.native-cursor :is(input, textarea) { cursor: text !important; }
+.native-cursor :disabled { cursor: not-allowed !important; }
+
 /* Base */
 html,
 body {

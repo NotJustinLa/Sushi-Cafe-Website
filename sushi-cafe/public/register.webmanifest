@@ -1,0 +1,10 @@
+{
+  "name": "Sushi Cafe Register",
+  "short_name": "Register",
+  "start_url": "/register",
+  "scope": "/register",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f7eedb",
+  "theme_color": "#141210"
+}

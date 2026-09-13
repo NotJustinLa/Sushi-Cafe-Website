@@ -4,7 +4,7 @@ import { openTable, parseTableNumber } from '@/lib/tables'
 
 // Staff: a group sat down. Opens the table so its QR code starts working.
 export async function POST(request, { params }) {
-    const denied = requireRegister(request)
+    const denied = await requireRegister(request)
     if (denied) return denied
 
     const tableNumber = parseTableNumber((await params).tableNumber)
