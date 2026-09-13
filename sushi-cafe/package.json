@@ -8,7 +8,12 @@
     "start": "next start",
     "lint": "eslint",
     "test": "vitest",
-    "qr": "node --env-file=.env.local scripts/make-table-qrs.mjs"
+    "qr": "node --env-file=.env.local scripts/make-table-qrs.mjs",
+    "test:coverage": "vitest run --coverage",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:headed": "playwright test --headed",
+    "test:report": "playwright show-report"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.116.0",
@@ -22,7 +27,9 @@
     "zod": "^4.6.2"
   },
   "devDependencies": {
+    "@playwright/test": "^1.63.0",
     "@tailwindcss/postcss": "^4",
+    "@vitest/coverage-v8": "^5.0.0",
     "eslint": "^9",
     "eslint-config-next": "16.2.6",
     "qrcode": "^1.5.4",

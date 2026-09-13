@@ -44,3 +44,9 @@ next-env.d.ts
 
 # table QR codes — contain the secret table codes
 /qr/
+
+# test output
+/coverage/
+/test-results/
+/playwright-report/
+/playwright/.cache/
