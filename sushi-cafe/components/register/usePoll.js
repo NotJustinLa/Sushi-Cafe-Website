@@ -67,6 +67,6 @@ export async function send(method, url, body) {
         }
         return { ok: res.ok, status: res.status, data: await res.json().catch(() => ({})) }
     } catch {
-        return { ok: false, status: 0, data: { message: "Couldn't reach the server — check the connection." } }
+        return { ok: false, status: 0, data: { message: "Couldn't reach the server. Check the connection." } }
     }
 }

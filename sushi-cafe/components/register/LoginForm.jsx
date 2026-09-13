@@ -28,12 +28,12 @@ export default function LoginForm({ next }) {
             const data = await res.json().catch(() => ({}))
             // 429 comes from the Vercel Firewall rate limit (5 tries a minute), not our API.
             setError(res.status === 429
-                ? 'Too many attempts — wait a minute, then try again.'
-                : data.message ?? 'Something went wrong — try again.')
+                ? 'Too many attempts. Wait a minute, then try again.'
+                : data.message ?? 'Something went wrong. Try again.')
             setPasscode('')
             inputRef.current?.focus()
         } catch {
-            setError("Couldn't reach the server — check the connection.")
+            setError("Couldn't reach the server. Check the connection.")
         }
         setChecking(false)
     }

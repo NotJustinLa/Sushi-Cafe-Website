@@ -22,8 +22,8 @@ export default function RegisterHeader() {
             <span className="mr-auto flex items-center gap-2 font-display text-[20px] font-bold italic">
                 <span className="h-[9px] w-[9px] rounded-full bg-red" aria-hidden="true" />
                 Sushi Cafe
-                <span className="hidden font-mono text-[11px] font-normal not-italic uppercase tracking-[0.18em] text-cream-fg/60 sm:inline">
-                    · Register
+                <span className="hidden font-display text-[20px] font-bold italic text-cream-fg/60 sm:inline">
+                    Register
                 </span>
             </span>
 

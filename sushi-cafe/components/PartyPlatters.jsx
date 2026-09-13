@@ -51,10 +51,10 @@ function PlatterCard({ name, price, sizes, image, description }) {
                 <img
                     src={image}
                     alt={name}
-                    className="aspect-[4/3] w-full object-cover"
+                    className="aspect-[4/3] w-full object-cover [@media(max-height:620px)]:aspect-[16/9]"
                 />
             ) : (
-                <div aria-hidden="true" className="aspect-[4/3] w-full bg-bg-deep" />
+                <div aria-hidden="true" className="aspect-[4/3] w-full bg-bg-deep [@media(max-height:620px)]:aspect-[16/9]" />
             )}
 
             <div className="flex flex-1 flex-col gap-4 p-6">
@@ -177,7 +177,9 @@ export default function PartyPlatters() {
         <div ref={wrapperRef} style={{ height: wrapperHeight }}>
             <section
                 id="platters"
-                className="sticky top-0 flex h-screen flex-col justify-center overflow-hidden border-t border-rule px-[var(--pad-x)]"
+                // pt-14 clears the fixed nav; center-safe keeps the headline in view
+                // (overflow goes off the bottom, not under the nav) on short phones.
+                className="sticky top-0 flex h-screen flex-col justify-center-safe overflow-hidden border-t border-rule px-[var(--pad-x)] pt-14"
             >
                 <div className="mx-auto w-full max-w-[var(--container-maxw)]">
 
@@ -201,7 +203,7 @@ export default function PartyPlatters() {
                         viewport={{ once: true, amount: 0.6 }}
                         variants={fadeUp}
                         transition={{ duration: 0.7, ease: [0.2, 0.8, 0.2, 1] }}
-                        className="mb-8 mt-8 max-w-[45ch] text-[clamp(16px,1.3vw,19px)] leading-[1.6] text-ink-soft"
+                        className="mb-6 mt-2 max-w-[45ch] md:mb-8 md:mt-8 text-[clamp(16px,1.3vw,19px)] leading-[1.6] text-ink-soft"
                     >
                         Order for pickup.   
                     </motion.p>

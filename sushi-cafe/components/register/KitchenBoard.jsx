@@ -66,7 +66,7 @@ export default function KitchenBoard() {
     const audio = useRef(null) // AudioContext once staff tap "Enable sound"
     const [soundOn, setSoundOn] = useState(false)
     const [notice, setNotice] = useState(null)
-    const wakeLock = useWakeLock()
+    useWakeLock() // keeps the kitchen screen from sleeping (no on-screen label)
 
     // Chime when a poll brings an order we haven't seen before.
     const onData = useCallback((data, previous) => {
@@ -109,16 +109,13 @@ export default function KitchenBoard() {
 
             <div className="mb-5 flex flex-wrap items-center gap-3">
                 <h1 className="mr-auto font-display text-[32px] font-bold">Kitchen</h1>
-                <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-ink-mute">
-                    {wakeLock === 'on' ? 'Screen stays on' : wakeLock === 'unsupported' ? 'Screen may sleep' : ''}
-                </span>
                 <button
                     type="button"
                     onClick={toggleSound}
                     aria-pressed={soundOn}
-                    className={`h-11 rounded-full px-5 font-mono text-[12px] uppercase tracking-[0.14em] ${soundOn ? 'border border-ink text-ink' : 'animate-pulse bg-red text-cream-fg'}`}
+                    className={`h-11 rounded-full px-5 font-mono text-[12px] uppercase tracking-[0.14em] ${soundOn ? 'border border-ink text-ink' : 'bg-red text-cream-fg'}`}
                 >
-                    {soundOn ? '🔔 Sound on' : 'Tap to enable sound'}
+                    {soundOn ? 'Sound on' : 'Tap to enable sound'}
                 </button>
             </div>
 
@@ -187,7 +184,7 @@ function OrderTicket({ order, now, onMove }) {
             </div>
             {order.tableClosed && (
                 <p className="mb-2 rounded-md bg-red/10 px-3 py-1.5 text-[13px] text-red">
-                    Table already closed (paid) — check before making, or cancel it.
+                    Table already closed (paid). Check before making, or cancel it.
                 </p>
             )}
             <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.14em] text-ink-mute">

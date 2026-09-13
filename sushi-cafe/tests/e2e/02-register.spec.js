@@ -50,7 +50,7 @@ test('the Tables board opens a table when a group sits down', async () => {
 
     await tile(table.tableNumber).getByRole('button', { name: 'Open table' }).click()
 
-    await expect(tile(table.tableNumber)).toContainText(/● open/i)
+    await expect(tile(table.tableNumber)).not.toContainText(/free/i)
     await expect(tile(table.tableNumber)).toContainText('$0.00')
 })
 
@@ -78,7 +78,7 @@ test("the kitchen moves it along, and READY appears on the guest's phone", async
 
     await ticket(orders.first).getByRole('button', { name: 'Ready' }).click()
     await expect(column('Ready')).toContainText(`#${orders.first}`)
-    await expect(phone.getByText(/ready — we'll bring it to your table/i)).toBeVisible()
+    await expect(phone.getByText(/ready, we'll bring it to your table/i)).toBeVisible()
 })
 
 test('the server marks it Served from the counter iPad', async () => {
@@ -89,7 +89,7 @@ test('the server marks it Served from the counter iPad', async () => {
 
     await expect(readyToServe).toHaveCount(0) // nothing left to carry out
     await expect(kitchen.locator('main')).not.toContainText(`#${orders.first}`)
-    await expect(phone.getByText(/served — enjoy!/i)).toBeVisible()
+    await expect(phone.getByText(/served, enjoy!/i)).toBeVisible()
 })
 
 test('cancelling an order takes a second tap to confirm', async () => {
@@ -102,7 +102,7 @@ test('cancelling an order takes a second tap to confirm', async () => {
     await expect(ticket(orders.cancelled)).toContainText(`Cancel #${orders.cancelled}?`)
     await ticket(orders.cancelled).getByRole('button', { name: 'Yes, cancel' }).click()
 
-    await expect(phone.getByText(/cancelled — please see the counter/i)).toBeVisible()
+    await expect(phone.getByText(/cancelled, please see the counter/i)).toBeVisible()
 })
 
 test('the bill warns about unserved orders, and "Paid — close table" closes the table', async () => {

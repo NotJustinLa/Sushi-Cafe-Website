@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { formatTime, money } from '@/lib/format'
 
 const POLL_MS = 5000
-const BASE_TITLE = 'Your table — Sushi Cafe'
+const BASE_TITLE = 'Your table | Sushi Cafe'
 const NO_ORDERS = [] // one shared empty array, so effects keyed on `orders` don't re-run every render
 
 // What the guest sees for each order status (§4 of the plan).
@@ -13,8 +13,8 @@ const STATUS_LABEL = {
     received: 'Sent to the kitchen',
     preparing: 'Being made',
     ready: 'Ready',
-    served: 'Served — enjoy!',
-    cancelled: 'Cancelled — please see the counter',
+    served: 'Served, enjoy!',
+    cancelled: 'Cancelled, please see the counter',
 }
 
 // Shared layout for the simple message states (also used by app/table/page.jsx).
@@ -104,7 +104,7 @@ export default function TableOrders({ initial, sent }) {
             <TableMessage
                 eyebrow="Dine in"
                 title="Scan the QR code on your table"
-                body="To order from your phone, scan the code on your table. If you've been here a while, your session may have expired — just scan it again."
+                body="To order from your phone, scan the code on your table. If you've been here a while, your session may have expired. Just scan it again."
             />
         )
     }
@@ -126,13 +126,13 @@ export default function TableOrders({ initial, sent }) {
                     <p className="mb-6 rounded-md border border-rule bg-bg-paper px-4 py-3 text-[14px] text-ink-soft">
                         {/* Template string on purpose: as plain JSX text the space
                             after {sent} was dropped by the compiler ("Order #7sent"). */}
-                        {`Order #${sent} sent — it's with the kitchen.`}
+                        {`Order #${sent} sent. It's with the kitchen.`}
                     </p>
                 )}
 
                 {orders.length === 0 ? (
                     <p className="mb-8 text-[16px] leading-[1.6] text-ink-soft">
-                        No orders yet. Pick from the menu and send your order to the kitchen — we&apos;ll bring it to your table.
+                        No orders yet. Pick from the menu and send your order to the kitchen, and we&apos;ll bring it to your table.
                     </p>
                 ) : (
                     <ul aria-live="polite" className="m-0 mb-8 flex list-none flex-col gap-4 p-0">
@@ -186,7 +186,7 @@ function OrderCard({ order }) {
 
             {ready && (
                 <p className="mb-1 mt-3 font-display text-[clamp(26px,5vw,34px)] font-bold leading-[1.1] text-red">
-                    READY — we&apos;ll bring it to your table
+                    READY, we&apos;ll bring it to your table
                 </p>
             )}
 

@@ -37,12 +37,13 @@ export default function About() {
         >
         
             <div className="mx-auto grid w-full max-w-[var(--container-maxw)]
-            items-center gap-20
+            items-center gap-10 md:gap-20
             md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
 
-                {/* Left - reserved for the 3d hand */}
-                <div className="relative min-h-[60vh]">
-                    <div className="absolute bottom-0 left-0 flex flex-col gap-[14px]">
+                {/* Left - reserved for the 3d hand. On mobile the badges drop
+                    below the text instead, with no reserved space. */}
+                <div className="relative order-last md:order-none md:min-h-[60vh]">
+                    <div className="flex flex-col gap-[14px] md:absolute md:bottom-0 md:left-0">
                         <div className="flex items-center gap-[14px]">
                                 <Hanko char="鮨" />
                                 <p className="m-0 font-mono text-[11px] uppercase tracking-[0.14em] text-ink-mute">

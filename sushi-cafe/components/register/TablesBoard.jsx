@@ -34,13 +34,12 @@ export default function TablesBoard() {
 
     function billClosed(bill) {
         setBillFor(null)
-        setNotice({ tone: 'ok', text: `Table ${bill.tableNumber} closed — ${money(bill.totalCents)} paid.` })
+        setNotice({ tone: 'ok', text: `Table ${bill.tableNumber} closed, ${money(bill.totalCents)} paid.` })
         tables.reload()
         ready.reload()
     }
 
     const readyOrders = ready.data?.orders ?? []
-    const openTables = tables.data?.tables.filter((t) => t.open) ?? []
 
     return (
         <main className="mx-auto max-w-[1200px] px-4 pb-16 pt-6 sm:px-6">
@@ -94,14 +93,7 @@ export default function TablesBoard() {
             )}
 
             <section aria-labelledby="tables-heading">
-                <div className="mb-4 flex items-baseline justify-between gap-4">
-                    <h1 id="tables-heading" className="font-display text-[32px] font-bold">Tables</h1>
-                    {tables.data && (
-                        <p className="font-mono text-[12px] uppercase tracking-[0.14em] text-ink-mute">
-                            {`${openTables.length} open · ${money(openTables.reduce((sum, t) => sum + t.runningTotalCents, 0))} to collect`}
-                        </p>
-                    )}
-                </div>
+                <h1 id="tables-heading" className="mb-4 font-display text-[32px] font-bold">Tables</h1>
 
                 {!tables.data ? (
                     <p className="text-ink-mute">Loading tables…</p>
@@ -115,15 +107,16 @@ export default function TablesBoard() {
                                 <div className="flex items-baseline justify-between">
                                     <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-ink-mute">Table</span>
                                     <span className={`font-mono text-[11px] uppercase tracking-[0.14em] ${t.open ? 'text-red' : 'text-ink-mute'}`}>
-                                        {t.open ? '● Open' : 'Free'}
+                                        {t.open ? 'Open' : 'Free'}
                                     </span>
                                 </div>
                                 <span className={`font-display text-[52px] font-bold leading-none ${t.open ? 'text-ink' : 'text-ink-faint'}`}>{t.tableNumber}</span>
 
                                 {t.open ? (
                                     <>
-                                        <p className="mt-3 text-[14px] text-ink-soft">
-                                            {duration(t.openedAt, tables.fetchedAt)} · {t.orderCount} {t.orderCount === 1 ? 'order' : 'orders'}
+                                        <p className="mt-3 flex flex-wrap gap-x-3 text-[14px] text-ink-soft">
+                                            <span>{duration(t.openedAt, tables.fetchedAt)}</span>
+                                            <span>{t.orderCount} {t.orderCount === 1 ? 'order' : 'orders'}</span>
                                         </p>
                                         <p className="font-display text-[22px] font-bold">{money(t.runningTotalCents)}</p>
                                         <button

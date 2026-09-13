@@ -29,7 +29,7 @@ export async function POST(request) {
         return json({ error: 'no_token', message: 'Scan the QR code on your table to order.' }, 401)
     }
     if (table.status === 'table_closed') {
-        return json({ error: 'table_closed', message: 'This table is closed — please see the counter.' }, 403)
+        return json({ error: 'table_closed', message: 'This table is closed. Please see the counter.' }, 403)
     }
 
     // 4. Price it from the menu. Unknown ids are rejected.

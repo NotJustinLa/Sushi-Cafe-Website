@@ -46,13 +46,13 @@ export default function SendToKitchen() {
             })
             data = await res.json()
         } catch {
-            setError("Couldn't reach the kitchen — check your connection and try again.")
+            setError("Couldn't reach the kitchen. Check your connection and try again.")
             setSending(false)
             return
         }
 
         if (!res.ok) {
-            setError(data.message ?? 'Something went wrong — please try again.')
+            setError(data.message ?? 'Something went wrong. Please try again.')
             // Token expired or table closed since the drawer opened: show that state.
             if (res.status === 401) setTable({ tableNumber: null, reason: 'no_token' })
             if (res.status === 403) setTable({ tableNumber: data.tableNumber ?? null, open: false, reason: 'table_closed' })
@@ -70,7 +70,7 @@ export default function SendToKitchen() {
     // Not at an open table (or still checking): explain why the button is off.
     let blockedMessage = null
     if (table === null) blockedMessage = 'Checking your table…'
-    else if (table.reason === 'table_closed') blockedMessage = 'This table is closed — please see the counter.'
+    else if (table.reason === 'table_closed') blockedMessage = 'This table is closed. Please see the counter.'
     else if (!atOpenTable) blockedMessage = 'Scan the QR code on your table to order.'
 
     return (

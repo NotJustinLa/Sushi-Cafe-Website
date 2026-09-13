@@ -1,7 +1,7 @@
 // The staff register. Deliberately NOT inside app/(site): no splash, smooth
 // scroll, nav, cart or red-dot cursor — just the tools staff need.
 export const metadata = {
-    title: { default: 'Register — Sushi Cafe', template: '%s · Register — Sushi Cafe' },
+    title: { default: 'Sushi Cafe Register', template: '%s | Sushi Cafe Register' },
     robots: { index: false, follow: false }, // keep staff pages out of search results
     manifest: '/register.webmanifest', // "Add to Home Screen" opens /register full-screen
     appleWebApp: { capable: true, title: 'Register', statusBarStyle: 'default' },

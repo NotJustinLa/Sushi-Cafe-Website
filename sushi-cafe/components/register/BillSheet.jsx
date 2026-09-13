@@ -36,7 +36,7 @@ export default function BillSheet({ tableNumber, onClosed, onBack }) {
         setError(null)
         const res = await send('POST', `/api/register/tables/${tableNumber}/close`)
         if (res.ok) return onClosed(res.data)
-        setError(res.data.message ?? (res.status === 404 ? 'This table is already closed.' : "Couldn't close the table — try again."))
+        setError(res.data.message ?? (res.status === 404 ? 'This table is already closed.' : "Couldn't close the table. Try again."))
         setClosing(false)
     }
 
@@ -52,7 +52,7 @@ export default function BillSheet({ tableNumber, onClosed, onBack }) {
                 className="flex max-h-[90vh] w-full max-w-[480px] flex-col rounded-t-xl bg-bg-paper sm:rounded-xl"
             >
                 <header className="flex items-baseline justify-between border-b border-rule px-6 py-5">
-                    <h2 id="bill-title" className="font-display text-[26px] font-bold">Table {tableNumber} — bill</h2>
+                    <h2 id="bill-title" className="font-display text-[26px] font-bold">Table {tableNumber} bill</h2>
                     {bill?.openedAt && <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-ink-mute">since {formatTime(bill.openedAt)}</span>}
                 </header>
 
@@ -87,14 +87,13 @@ export default function BillSheet({ tableNumber, onClosed, onBack }) {
                                 {`⚠ ${unserved} ${unserved === 1 ? 'order' : 'orders'} not served yet`}
                             </p>
                         )}
-                        <p className="mb-4 text-[14px] text-ink-mute">Take payment on the EFTPOS terminal, then:</p>
                         <button
                             type="button"
                             onClick={paid}
                             disabled={closing}
-                            className="h-14 w-full rounded-full bg-red font-mono text-[12px] uppercase tracking-[0.16em] text-cream-fg hover:bg-red-deep disabled:opacity-50"
+                            className="mt-2 h-14 w-full rounded-full bg-red font-mono text-[12px] uppercase tracking-[0.16em] text-cream-fg hover:bg-red-deep disabled:opacity-50"
                         >
-                            {closing ? 'Closing…' : 'Paid — close table'}
+                            {closing ? 'Closing…' : 'Paid, close table'}
                         </button>
                         {error && <p role="alert" className="mt-3 text-center text-[14px] text-red">{error}</p>}
                     </footer>

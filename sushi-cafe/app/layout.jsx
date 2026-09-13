@@ -30,7 +30,7 @@ const jetBrains = JetBrains_Mono({
 })
   
 export const metadata = {
-  title: 'Sushi Cafe — 292 Doncaster Rd, Balwyn North',
+  title: 'Sushi Cafe | 292 Doncaster Rd, Balwyn North',
   description: 'A family sushi spot on Doncaster Road. Hand-rolled fresh daily in Balwyn North since 2013.',
 }
 

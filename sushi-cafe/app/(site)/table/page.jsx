@@ -2,7 +2,7 @@ import TableOrders, { TableMessage } from '@/components/TableOrders'
 import { getTableStatus } from '@/lib/tables'
 
 export const metadata = {
-    title: 'Your table — Sushi Cafe',
+    title: 'Your table | Sushi Cafe',
 }
 
 // Failed QR scans redirect here with a reason (/table?reason=not_open).

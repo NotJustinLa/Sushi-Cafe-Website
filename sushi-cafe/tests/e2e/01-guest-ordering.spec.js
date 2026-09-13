@@ -80,7 +80,7 @@ test('Send to kitchen saves the order, priced by the server — editing prices i
     orderNumber = await sendOrder(phone, [], 'No wasabi please')
 
     await expect(phone.getByRole('heading', { level: 1 })).toHaveText(`Table ${table.tableNumber}`)
-    await expect(phone.getByText(`Order #${orderNumber} sent — it's with the kitchen.`)).toBeVisible()
+    await expect(phone.getByText(`Order #${orderNumber} sent. It's with the kitchen.`)).toBeVisible()
     await expect(phone.getByRole('button', { name: /^Cart/ })).toHaveText(/^cart$/i) // cart emptied
 
     const [saved] = await db(`orders?select=table_number,total_cents,status,note,items&order_number=eq.${orderNumber}`)
@@ -100,12 +100,12 @@ test('the table page updates live as the kitchen works on the order', async ({ r
     await expect(phone.getByText(/being made/i)).toBeVisible()
 
     await moveTo('ready')
-    await expect(phone.getByText(/ready — we'll bring it to your table/i)).toBeVisible()
+    await expect(phone.getByText(/ready, we'll bring it to your table/i)).toBeVisible()
     await expect(phone).toHaveTitle(`READY · Order #${orderNumber}`)
     expect(await phone.evaluate(() => window.__vibrations), 'phone buzzes when it turns ready').toBe(1)
 
     await moveTo('served')
-    await expect(phone.getByText(/served — enjoy!/i)).toBeVisible()
+    await expect(phone.getByText(/served, enjoy!/i)).toBeVisible()
     expect(await phone.evaluate(() => window.__vibrations), 'and only buzzed once').toBe(1)
 })
 
