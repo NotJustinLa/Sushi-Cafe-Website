@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { motion, useScroll, useMotionValueEvent } from 'framer-motion'
 import posthog from 'posthog-js'
+import { itemId, platters } from '@/lib/menu'
 import { useCart } from './CartProvider'
 import SplitWord from './SplitWord'
 
@@ -10,59 +11,6 @@ const fadeUp = {
     hidden: { opacity: 0, y: 16 },
     show: { opacity: 1, y: 0 },
 }
-
-// A platter is EITHER a single price ({ price })
-// OR a set of size variants ({ sizes: [{ label, price }, …] }).
-// The card renders a size toggle only when `sizes` is present.
-// `image` points at a file in /public (served from the site root). Paths are
-// case-sensitive on the deployed server, so they must match the filenames exactly.
-const platters = [
-    {
-        name: 'Handroll Platter',
-        image: '/Handroll_Platter.JPG',
-        description: '48 pieces of assorted handrolls',
-        sizes: [
-            { label: 'Small', price: 55 },
-            { label: 'Medium', price: 67 },
-            { label: 'Large', price: 80 },
-        ],
-    },
-    {
-        name: 'Salmon Sashimi Platter',
-        image: '/Sashimi_Platter.JPG',
-        description: '52 slices of fresh salmon',
-        price: 120,
-    },
-    {
-        name: 'Deluxe Platter for Two',
-        image: '/Deluxe_Platter_for_Two.JPG',
-        description: '34 pieces of sushi, rolls & sashimi to share',
-        price: 65,
-    },
-    {
-        name: 'Mixed Sushi Platter',
-        image: '/Mixed_Sushi_Platter.JPG',
-        description: '26 pieces',
-        price: 55,
-    },
-    {
-        name: 'Assorted Sushi Platter',
-        image: '/Assorted_Sushi_Platter.JPG',
-        description: '42 pieces',
-        price: 78,
-    },
-    {
-        name: 'Sushi & Sashimi Platter',
-        image: '/Sushi_and_Sashimi_Platter.JPG',
-        description: '64 pieces',
-        price: 120,
-    },
-]
-
-// Turn a name/size into a stable cart id: "Handroll Platter" + "Medium"
-// → "handroll-platter-medium".
-const slug = (s) =>
-    s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
 
 // One platter card. Shows a size toggle when the item has `sizes`. The image
 // area is intentionally an empty box — drop an <img> into the slot when you
@@ -83,7 +31,7 @@ function PlatterCard({ name, price, sizes, image, description }) {
 
     function handleAdd() {
         addItem({
-            id: hasSizes ? `${slug(name)}-${slug(activeLabel)}` : slug(name),
+            id: itemId(name, activeLabel),
             name,
             variant: activeLabel,
             price: activePrice,

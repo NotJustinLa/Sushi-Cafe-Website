@@ -4,6 +4,8 @@ import SiteShell from '@/components/SiteShell'
 import CustomCursor from '@/components/CustomCursor'
 import LenisProvider from '@/components/LenisProvider'
 import { CartProvider } from '@/components/CartProvider'
+import CartDrawer from '@/components/CartDrawer'
+import QrScanTracker from '@/components/QrScanTracker'
 import './globals.css'
 
 const shippori = Shippori_Mincho({
@@ -59,7 +61,10 @@ export default function RootLayout({ children }) {
               <Nav />
               {children}
             </SiteShell>
+            {/* Outside SiteShell so no section transform or the splash can clip it */}
+            <CartDrawer />
           </CartProvider>
+          <QrScanTracker />
         </LenisProvider>
       </body>
     </html>

@@ -9,7 +9,7 @@ import { useLenis } from './LenisProvider'
  * click-through, with pointer-events-auto restored on each interactive element.
  */
 export default function Nav() {
-    const { count } = useCart()
+    const { count, openDrawer } = useCart()
     const lenis = useLenis()
 
     function scrollTo(e, target) {
@@ -43,15 +43,17 @@ export default function Nav() {
           <a href="#visit" onClick={(e) => scrollTo(e, '#visit')} className="transition-colors duration-200 hover:text-ink">Visit</a>
         </div>
 
-      {/* CTA */}
-      <a
-        href="#platters"
+      {/* CTA — opens the cart drawer */}
+      <button
+        type="button"
+        onClick={openDrawer}
+        aria-haspopup="dialog"
         className="pointer-events-auto rounded-full border border-ink
-        bg-transparent px-[18px] py-[9px] text-ink
+        bg-transparent px-[18px] py-[9px] uppercase text-ink
         transition-colors duration-200 hover:bg-ink hover:text-bg"
       >
         Cart{count > 0 ? `  ${count}` : ''}
-      </a>
+      </button>
 
       </nav>
     );
