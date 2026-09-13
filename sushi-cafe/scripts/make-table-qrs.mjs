@@ -17,7 +17,17 @@ if (!NEXT_PUBLIC_SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY || !SITE_URL) {
     console.error('Missing NEXT_PUBLIC_SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY or SITE_URL — run with: npm run qr')
     process.exit(1)
 }
-const site = new URL(SITE_URL)
+// Refuse anything that isn't a plain website address — e.g. "https://https://site.vercel.app"
+// (https:// typed twice) would otherwise make every code point at a site called "https".
+const site = URL.canParse(SITE_URL) ? new URL(SITE_URL) : null
+const realHost = /^(localhost|\d{1,3}(\.\d{1,3}){3}|[a-z0-9-]+(\.[a-z0-9-]+)+)$/i
+if (!site || !['http:', 'https:'].includes(site.protocol) || !realHost.test(site.hostname) || site.pathname !== '/' || site.search || site.hash) {
+    console.error(`SITE_URL isn't a plain website address: ${SITE_URL}
+
+Use just the address — https:// once, nothing after it:
+  SITE_URL=https://sushi-cafe.vercel.app npm run qr`)
+    process.exit(1)
+}
 
 // Plain client, not lib/supabase-server.js — that file is marked server-only
 // and refuses to load outside Next.

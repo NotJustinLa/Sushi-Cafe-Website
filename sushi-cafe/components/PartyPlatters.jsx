@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { motion, useScroll, useMotionValueEvent } from 'framer-motion'
-import posthog from 'posthog-js'
 import { itemId, platters } from '@/lib/menu'
 import { useCart } from './CartProvider'
 import SplitWord from './SplitWord'
@@ -35,11 +34,6 @@ function PlatterCard({ name, price, sizes, image, description }) {
             name,
             variant: activeLabel,
             price: activePrice,
-        })
-        posthog.capture('platter_added_to_cart', {
-            platter_name: name,
-            platter_variant: activeLabel ?? null,
-            platter_price: activePrice,
         })
         // Tiny confirmation flash on the button.
         setJustAdded(true)
@@ -93,14 +87,7 @@ function PlatterCard({ name, price, sizes, image, description }) {
                                 <button
                                     key={s.label}
                                     type="button"
-                                    onClick={() => {
-                                        setSizeIdx(i)
-                                        posthog.capture('platter_size_selected', {
-                                            platter_name: name,
-                                            size_label: s.label,
-                                            size_price: s.price,
-                                        })
-                                    }}
+                                    onClick={() => setSizeIdx(i)}
                                     aria-pressed={selected}
                                     className={[
                                         'flex-1 rounded-md border py-2 font-mono text-[11px] uppercase tracking-[0.14em] transition-colors duration-200',

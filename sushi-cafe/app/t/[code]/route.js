@@ -13,7 +13,7 @@ export async function GET(request, { params }) {
     const session = await getOpenSession(tableNumber)
     if (!session) return withoutToken(redirectTo('/table?reason=not_open'))
 
-    const res = redirectTo('/?from=qr')
+    const res = redirectTo('/')
     res.cookies.set(TABLE_COOKIE, createTableToken(session.id, tableNumber), {
         httpOnly: true, // page scripts can't read or copy it
         sameSite: 'lax',
@@ -24,7 +24,7 @@ export async function GET(request, { params }) {
     return res
 }
 
-// Relative redirect ("Location: /?from=qr"), so the phone stays on whatever
+// Relative redirect ("Location: /"), so the phone stays on whatever
 // address it scanned — the Wi-Fi IP in dev, the real domain in production.
 // Don't build it from request.url: in `next dev` that's always
 // http://localhost:3000, which on a phone means the phone itself.

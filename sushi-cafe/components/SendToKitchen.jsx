@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import posthog from 'posthog-js'
 import { useCart } from './CartProvider'
 
 // The cart drawer's footer action: sends the cart to the kitchen for this
@@ -63,16 +62,6 @@ export default function SendToKitchen() {
 
         // The kitchen has it. Nothing from here on may look like a failure —
         // a guest who thinks it failed sends it again and the kitchen makes it twice.
-        try {
-            posthog.capture('order_placed', {
-                order_number: data.orderNumber,
-                table_number: data.tableNumber,
-                item_count: items.reduce((n, line) => n + line.qty, 0),
-                total_cents: data.totalCents,
-            })
-        } catch {
-            // Analytics must never block an order.
-        }
         clearCart()
         closeDrawer()
         router.push(`/table?sent=${data.orderNumber}`)
