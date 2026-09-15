@@ -63,7 +63,7 @@ export default function BillSheet({ tableNumber, onClosed, onBack }) {
                     {bill?.orders?.map((order) => (
                         <div key={order.orderNumber} className="border-b border-rule py-3 last:border-0">
                             <p className="mb-1 flex justify-between font-mono text-[11px] uppercase tracking-[0.14em] text-ink-mute">
-                                <span>#{order.orderNumber} · {formatTime(order.createdAt)}</span>
+                                <span>#{order.orderNumber} {formatTime(order.createdAt)}</span>
                                 {order.status !== 'served' && <span className="text-red">{order.status}</span>}
                             </p>
                             {order.items.map((line) => (
@@ -84,7 +84,7 @@ export default function BillSheet({ tableNumber, onClosed, onBack }) {
                         </p>
                         {unserved > 0 && (
                             <p className="mb-2 text-[14px] text-red">
-                                {`⚠ ${unserved} ${unserved === 1 ? 'order' : 'orders'} not served yet`}
+                                {`${unserved} ${unserved === 1 ? 'order' : 'orders'} not served yet`}
                             </p>
                         )}
                         <button

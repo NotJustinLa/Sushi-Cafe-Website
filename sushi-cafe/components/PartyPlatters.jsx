@@ -116,7 +116,7 @@ function PlatterCard({ name, price, sizes, image, description }) {
     )
 }
 
-// "Party platters" — grouped horizontal snap strips of order-ahead platters
+// "Party platters" grouped horizontal snap strips of order-ahead platters
 // with add-to-cart, mirroring the eyebrow / headline pattern from About.
 export default function PartyPlatters() {
     const wrapperRef = useRef(null)
@@ -156,7 +156,7 @@ export default function PartyPlatters() {
             (raf = requestAnimationFrame(recalculate))
         )
 
-        // ResizeObserver catches the strip's own box changing (e.g. viewport
+        // ResizeObserver catches the strip's own box changing
         // resize shrinking clientWidth); the resize listener is a belt-and-braces
         // fallback since scrollWidth growth alone won't trip the observer.
         const observer = new ResizeObserver(recalculate)

@@ -4,9 +4,9 @@ create extension if not exists pgcrypto with schema extensions;
 
 create type order_status as enum ('received', 'preparing', 'ready', 'served', 'cancelled');
 
--- ── Tables ───────────────────────────────────────────────────────────
+-- ── Tables 
 
--- One row per physical table. `code` is printed in the QR (/t/<code>).
+-- One row per physical table. code is printed in the QR (/t/<code>).
 -- It's random, so nobody can guess another table's link. Rotate a code by updating it and reprinting that QR.
 create table dining_tables (
   table_number  int  primary key check (table_number between 1 and 99),
@@ -16,7 +16,7 @@ create table dining_tables (
 
 insert into dining_tables (table_number) select generate_series(1, 9);  -- the cafe has 9 tables
 
--- ── Table sessions ───────────────────────────────────────────────────
+-- ── Table sessions
 
 -- Staff open a session when a group sits down, and close it when they pay.
 -- Orders are only accepted while the table's session is open.
@@ -31,7 +31,7 @@ create table table_sessions (
 create unique index one_open_session_per_table
   on table_sessions (table_number) where closed_at is null;
 
--- ── Orders ───────────────────────────────────────────────────────────
+-- ── Orders 
 
 create table orders (
   order_number  bigint generated always as identity primary key,  -- #1, #2, #3 … counts up forever
