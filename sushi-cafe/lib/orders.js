@@ -4,7 +4,7 @@ import { supabase } from './supabase-server'
 
 const ORDER_COLUMNS = 'order_number, table_number, items, total_cents, note, status, created_at, ready_at'
 
-// Database row → the shape the API sends (camelCase, like the rest of §5).
+// Database row, converted to the shape the API sends (camelCase).
 export function toOrderJson(row) {
     return {
         orderNumber: row.order_number,
@@ -18,7 +18,7 @@ export function toOrderJson(row) {
     }
 }
 
-// Register: orders in the given statuses, oldest first so the kitchen works
+// Register — orders in the given statuses, oldest first so the kitchen works
 // through them in order. `since` (a Date) limits it to orders placed after it.
 // Each order also says whether its table has since been closed (paid), so the
 // kitchen can spot orders left behind when a group paid before being served.
@@ -35,7 +35,7 @@ export async function listOrders({ statuses, since }) {
     return data.map((row) => ({ ...toOrderJson(row), tableClosed: Boolean(row.table_sessions?.closed_at) }))
 }
 
-// Register: move an order to a new status. Returns { order } or { error }.
+// Register — move an order to a new status. Returns the updated order or an error.
 // The update only applies if the order is still in the status we read, so
 // two taps (or two screens) at once can't both apply — the second gets a conflict.
 export async function updateOrderStatus(orderNumber, status) {
@@ -61,8 +61,8 @@ export async function updateOrderStatus(orderNumber, status) {
     return { order: toOrderJson(data) }
 }
 
-// Register: order count + running total for each of these sessions
-// (cancelled orders don't count). Returns Map(sessionId → { orderCount, runningTotalCents }).
+// Register — order count and running total for each of these sessions
+// (cancelled orders don't count). Returns a Map from sessionId to orderCount and runningTotalCents.
 export async function getSessionTotals(sessionIds) {
     const totals = new Map(sessionIds.map((id) => [id, { orderCount: 0, runningTotalCents: 0 }]))
     if (sessionIds.length === 0) return totals
@@ -102,7 +102,7 @@ export async function createOrder({ tableNumber, sessionId, items, totalCents, n
 // Everything a table session ordered, oldest first, plus the total to pay.
 // Cancelled orders never count towards the total. They're left out of the
 // list too, unless includeCancelled — the guest's /table page shows them
-// ("Cancelled — please see the counter"); the register's final bill doesn't.
+// ("Cancelled — please see the counter"). The register's final bill doesn't.
 export async function getSessionBill(sessionId, { includeCancelled = false } = {}) {
     let query = supabase
         .from('orders')

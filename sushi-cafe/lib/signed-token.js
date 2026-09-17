@@ -1,7 +1,7 @@
 import 'server-only'
 import { createHmac, timingSafeEqual } from 'node:crypto'
 
-// Small signed-token format shared by table tokens and staff sessions:
+// Small signed-token format shared by table tokens and staff sessions —
 //   "<base64url JSON payload>.<HMAC-SHA256 signature>"
 // Anyone can read the payload, but changing any of it breaks the signature,
 // and only the server knows the secret. Payloads carry `exp` (ms since epoch).

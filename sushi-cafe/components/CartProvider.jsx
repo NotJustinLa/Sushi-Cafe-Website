@@ -5,20 +5,16 @@ import { findMenuItem } from '@/lib/menu'
 
 const CartContext = createContext(null)
 
-// ── Saved cart (localStorage) ─────────────────────────────────────────
+// Saved cart (localStorage)
 // The cart lives in localStorage so it survives a refresh or an app switch.
-// React reads it through useSyncExternalStore, which renders an empty cart on
-// the server and during hydration, then swaps in the saved one — so the
-// server's HTML and the browser's first render always match (no hydration error).
 
 const STORAGE_KEY = 'sushi-cafe:cart'
 const EMPTY = []
 let cache = null // parsed cart; same array back until it changes, as React requires
 const listeners = new Set()
 
-// Rebuild a saved cart from the menu: keep only ids + quantities from storage,
+// Rebuild a saved cart from the menu, keeping only ids + quantities from storage,
 // take name/size/price from the menu. Drops anything no longer on the menu,
-// and means a price change (or a hand-edited localStorage) never shows a stale price.
 function restoreCart(saved) {
     if (!Array.isArray(saved)) return EMPTY
     return saved.flatMap((line) => {
@@ -33,7 +29,7 @@ function readCart() {
         try {
             cache = restoreCart(JSON.parse(localStorage.getItem(STORAGE_KEY) ?? '[]'))
         } catch {
-            cache = EMPTY // corrupt JSON or storage blocked (e.g. private mode) — start empty
+            cache = EMPTY // corrupt JSON or storage blocked
         }
     }
     return cache
@@ -44,14 +40,14 @@ function writeCart(next) {
     try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(next))
     } catch {
-        // Storage full or blocked — the cart still works, it just won't survive a refresh.
+        // Storage full or blocked, the cart still works, it just won't survive a refresh.
     }
     listeners.forEach((notify) => notify())
 }
 
 function subscribe(notify) {
     listeners.add(notify)
-    // Another tab changed the cart → re-read it here too.
+    // Another tab changed the cart, re-read it here too.
     function onStorage(e) {
         if (e.key !== STORAGE_KEY) return
         cache = null

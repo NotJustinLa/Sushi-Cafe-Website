@@ -2,7 +2,7 @@ import { json } from '@/lib/http'
 import { requireRegister } from '@/lib/register-auth'
 import { openTable, parseTableNumber } from '@/lib/tables'
 
-// Staff: a group sat down. Opens the table so its QR code starts working.
+// Staff — a group sat down. Opens the table so its QR code starts working.
 export async function POST(request, { params }) {
     const denied = await requireRegister(request)
     if (denied) return denied

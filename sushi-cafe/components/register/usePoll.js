@@ -3,11 +3,11 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 
 // Fetch `url` now and every `intervalMs` while the screen is visible.
-// Returns { data, error, fetchedAt, reload }:
+// Returns data, error, fetchedAt, and reload
 //   - error      set while requests are failing (shows "Connection lost"), cleared on success
 //   - fetchedAt  when `data` arrived — use it as "now" for "4 min ago" labels
 //   - reload()   fetch again straight away (after a button press)
-// A 401 means the staff session ran out → back to the login page.
+// A 401 means the staff session ran out, so it redirects back to the login page.
 // onData(data, previous) runs on every successful fetch (e.g. to chime on new orders).
 export function usePoll(url, intervalMs, { onData } = {}) {
     const [state, setState] = useState({ data: null, error: null, fetchedAt: null })

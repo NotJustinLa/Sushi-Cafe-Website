@@ -2,7 +2,7 @@ import { cookies } from 'next/headers'
 import { json } from '@/lib/http'
 import { createStaffSession, passcodeMatches, STAFF_COOKIE, STAFF_SESSION_HOURS } from '@/lib/staff-session'
 
-// Staff: { "passcode": "…" } → sets the staff_session cookie for a shift.
+// Staff sends a passcode as JSON and gets the staff_session cookie for a shift.
 export async function POST(request) {
     let body
     try {

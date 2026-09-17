@@ -1,4 +1,4 @@
-// The staff register. Deliberately NOT inside app/(site): no splash, smooth
+// The staff register. Deliberately not inside app/(site) — no splash, smooth
 // scroll, nav, cart or red-dot cursor — just the tools staff need.
 export const metadata = {
     title: { default: 'Sushi Cafe Register', template: '%s | Sushi Cafe Register' },

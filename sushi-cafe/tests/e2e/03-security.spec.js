@@ -1,4 +1,4 @@
-// 3 · Security: what the server refuses, tried the way an attacker would —
+// 3 · Security — what the server refuses, tried the way an attacker would —
 // straight at the API, no browser UI. Fast (a few seconds).
 import { expect, test } from '@playwright/test'
 import { BASE_URL, createTestTable, db, removeTestTable, STAFF } from './helpers'

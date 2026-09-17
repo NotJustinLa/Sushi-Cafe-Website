@@ -1,4 +1,4 @@
-// 1 · The guest's journey on their phone: scan → order → watch it arrive → pay.
+// 1 · The guest's journey on their phone — scan, order, watch it arrive, pay.
 // The tests run in order and share one phone, like a real visit.
 import { expect, test } from '@playwright/test'
 import {
@@ -68,7 +68,7 @@ test('the cart: add, change quantity, remove — and it survives a refresh', asy
 })
 
 test('Send to kitchen saves the order, priced by the server — editing prices in the browser does nothing', async () => {
-    // Try to cheat: set every price in the saved cart to 1 cent.
+    // Try to cheat — set every price in the saved cart to 1 cent.
     await phone.evaluate(() => {
         const cart = JSON.parse(localStorage.getItem('sushi-cafe:cart'))
         for (const line of cart) line.price = 0.01

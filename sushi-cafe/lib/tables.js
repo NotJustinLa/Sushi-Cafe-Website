@@ -8,7 +8,7 @@ import { readTableToken, TABLE_COOKIE } from './table-token'
 // Checking the shape first means junk URLs never reach the database.
 const CODE_SHAPE = /^[0-9a-f]{12}$/
 
-// "7" → 7. Anything that isn't a 1–2 digit number → null.
+// "7" becomes 7. Anything that isn't a 1-2 digit number becomes null.
 export function parseTableNumber(value) {
     return /^\d{1,2}$/.test(String(value)) ? Number(value) : null
 }
@@ -48,7 +48,7 @@ export async function getSession(id) {
     return data
 }
 
-// Staff: a group sat down. Returns { session } or { error }.
+// Staff — a group sat down. Returns a session or an error.
 export async function openTable(tableNumber) {
     const { data, error } = await supabase
         .from('table_sessions')
@@ -61,7 +61,7 @@ export async function openTable(tableNumber) {
     return { session: data }
 }
 
-// Staff: the group has paid. Returns the closed session, or null if the table wasn't open.
+// Staff — the group has paid. Returns the closed session, or null if the table wasn't open.
 export async function closeTable(tableNumber) {
     const { data, error } = await supabase
         .from('table_sessions')
@@ -95,10 +95,10 @@ export async function listTables() {
 }
 
 // Which table is this phone at? Reads the token cookie and checks the session
-// is still open. Used by GET /api/table now, and by POST /api/orders in M3.
-//   { status: 'no_token' }                                   no/edited/expired token
-//   { status: 'table_closed', tableNumber }                  staff closed the table
-//   { status: 'open', tableNumber, sessionId, expiresAt }    ok to order
+// is still open. Used by GET /api/table, and by POST /api/orders.
+//   status 'no_token' — no, edited, or expired token
+//   status 'table_closed' with tableNumber — staff closed the table
+//   status 'open' with tableNumber, sessionId, expiresAt — ok to order
 export async function getCurrentTable() {
     const token = readTableToken((await cookies()).get(TABLE_COOKIE)?.value)
     if (!token) return { status: 'no_token' }
@@ -114,7 +114,7 @@ export async function getCurrentTable() {
     }
 }
 
-// Everything the guest's phone shows: its table and that visit's orders.
+// Everything the guest's phone shows — its table and that visit's orders.
 // This is the GET /api/table response (§5), and /table renders it on the
 // server first so the page never flashes empty before the first poll.
 export async function getTableStatus() {

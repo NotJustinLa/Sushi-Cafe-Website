@@ -41,7 +41,7 @@ export const viewport = {
   viewportFit: 'cover',
 }
 
-// Shared by everything: fonts, <html> and <body> only. The public site's
+// Shared by everything — fonts, <html> and <body> only. The public site's
 // pieces (splash, smooth scroll, nav, cart) live in app/(site)/layout.jsx, and
 // the staff register has its own app/register/layout.jsx.
 export default function RootLayout({ children }) {

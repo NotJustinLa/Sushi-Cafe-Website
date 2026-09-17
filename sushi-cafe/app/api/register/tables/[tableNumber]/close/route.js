@@ -3,7 +3,7 @@ import { getSessionBill } from '@/lib/orders'
 import { requireRegister } from '@/lib/register-auth'
 import { closeTable, parseTableNumber } from '@/lib/tables'
 
-// Staff: the group has paid. Closes the table — every phone at it stops being
+// Staff — the group has paid. Closes the table, and every phone at it stops being
 // able to order straight away, even if its token hasn't expired.
 export async function POST(request, { params }) {
     const denied = await requireRegister(request)

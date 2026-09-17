@@ -144,21 +144,21 @@ export default function PartyPlatters() {
 
         function recalculate() {
             const maxScroll = strip.scrollWidth - strip.clientWidth
-            // Guard the 0 case: a wrapper of exactly 100vh makes scroll progress
+            // Guard the 0 case — a wrapper of exactly 100vh makes scroll progress
             // degenerate (start === end) and the strip snaps instantly to the end.
             setWrapperHeight(maxScroll > 0 ? `calc(100vh + ${maxScroll}px)` : '100vh')
         }
 
         // Measure AFTER layout settles. scrollWidth only reaches its final value
-        // once the cards have flowed to their 300px widths; a synchronous read can
+        // once the cards have flowed to their 300px widths. A synchronous read can
         // catch a pre-layout frame where scrollWidth === clientWidth (maxScroll 0).
         let raf = requestAnimationFrame(() =>
             (raf = requestAnimationFrame(recalculate))
         )
 
-        // ResizeObserver catches the strip's own box changing
-        // resize shrinking clientWidth); the resize listener is a belt-and-braces
-        // fallback since scrollWidth growth alone won't trip the observer.
+        // ResizeObserver catches the strip's own box resizing, and the resize
+        // listener is a belt-and-braces fallback since scrollWidth growth alone
+        // won't trip the observer.
         const observer = new ResizeObserver(recalculate)
         observer.observe(strip)
         window.addEventListener('resize', recalculate)
@@ -177,7 +177,7 @@ export default function PartyPlatters() {
         <div ref={wrapperRef} style={{ height: wrapperHeight }}>
             <section
                 id="platters"
-                // pt-14 clears the fixed nav; center-safe keeps the headline in view
+                // pt-14 clears the fixed nav, and center-safe keeps the headline in view
                 // (overflow goes off the bottom, not under the nav) on short phones.
                 className="sticky top-0 flex h-screen flex-col justify-center-safe overflow-hidden border-t border-rule px-[var(--pad-x)] pt-14"
             >

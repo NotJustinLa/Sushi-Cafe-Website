@@ -13,7 +13,7 @@ const fadeUp = {
 export default function Hero() {
     const sectionRef = useRef(null)
 
-    // Scroll-linked parallax: track progress as the hero scrolls out of view.
+    // Scroll-linked parallax — track progress as the hero scrolls out of view.
     // 0 = section top aligned with viewport top (fully in view), 1 = section
     // bottom has reached the viewport top (fully scrolled past).
     const { scrollYProgress } = useScroll({
@@ -26,9 +26,9 @@ export default function Hero() {
     const contentY = useTransform(scrollYProgress, [0, 1], [0, -120])
 
     // Rising-sun arc for the background circle. As you scroll down it sweeps
-    // up-and-left along a curved path: x travels leftward while y climbs, with
+    // up-and-left along a curved path — x travels leftward while y climbs, with
     // the mid-stop making the trajectory curve (an arc) rather than a straight
-    // diagonal. vw/vh keep it responsive; at progress 0 both are zero so the
+    // diagonal. vw/vh keep it responsive. At progress 0 both are zero so the
     // sun starts exactly where it sits statically. Reverses on scroll-up.
     const sunX = useTransform(scrollYProgress, [0, 0.5, 1], ['0vw', '-28vw', '-55vw'])
     const sunY = useTransform(scrollYProgress, [0, 0.5, 1], ['0vh', '-28vh', '-34vh'])

@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion'
 import { Fragment } from 'react'
 
-// Splits text into words, then chars. Each word is wrapped in white-space:nowrap
+// Splits text into words, then chars. Each word is wrapped in a nowrap white-space style
 // so the browser only breaks at the spaces *between* words — never mid-word.
 export default function SplitWord({ children }) {
     const words = String(children).split(' ')

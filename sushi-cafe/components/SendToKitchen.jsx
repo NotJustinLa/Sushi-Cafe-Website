@@ -4,14 +4,14 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useCart } from './CartProvider'
 
-// The cart drawer's footer action: sends the cart to the kitchen for this
+// The cart drawer's footer action — sends the cart to the kitchen for this
 // phone's table. The table comes from the phone's token cookie (set by
 // scanning the QR code) — this component only asks the server which table it is.
 export default function SendToKitchen() {
     const { items, total, clearCart, closeDrawer } = useCart()
     const router = useRouter()
 
-    // null = still checking; otherwise the /api/table response.
+    // null while still checking, otherwise the /api/table response.
     const [table, setTable] = useState(null)
     const [note, setNote] = useState('')
     const [sending, setSending] = useState(false)
@@ -53,7 +53,7 @@ export default function SendToKitchen() {
 
         if (!res.ok) {
             setError(data.message ?? 'Something went wrong. Please try again.')
-            // Token expired or table closed since the drawer opened: show that state.
+            // Token expired or table closed since the drawer opened — show that state.
             if (res.status === 401) setTable({ tableNumber: null, reason: 'no_token' })
             if (res.status === 403) setTable({ tableNumber: data.tableNumber ?? null, open: false, reason: 'table_closed' })
             setSending(false)
@@ -67,7 +67,7 @@ export default function SendToKitchen() {
         router.push(`/table?sent=${data.orderNumber}`)
     }
 
-    // Not at an open table (or still checking): explain why the button is off.
+    // Not at an open table (or still checking) — explain why the button is off.
     let blockedMessage = null
     if (table === null) blockedMessage = 'Checking your table…'
     else if (table.reason === 'table_closed') blockedMessage = 'This table is closed. Please see the counter.'

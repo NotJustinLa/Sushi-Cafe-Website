@@ -3,7 +3,7 @@ import { z } from 'zod'
 export const MAX_QTY = 20
 export const MAX_LINES = 30
 
-// What the browser is allowed to send: item ids + quantities + an optional note.
+// What the browser is allowed to send — item ids, quantities, and an optional note.
 // Anything else (prices, totals, table numbers) is stripped — the server works
 // those out itself from lib/menu.js and the table token.
 export const orderSchema = z.object({

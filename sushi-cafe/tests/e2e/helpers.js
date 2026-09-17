@@ -2,7 +2,7 @@
 //
 // The tests drive the real site in real Chrome against the real Supabase
 // database (the same one `npm run dev` uses). To stay out of the way they
-// never touch the cafe's real tables: each test file creates a temporary
+// never touch the cafe's real tables — each test file creates a temporary
 // TABLE 99 (with its own secret QR code) and deletes it — with every session
 // and order on it — when it finishes. So don't use 99 as a real table number.
 import { expect } from '@playwright/test'
@@ -35,7 +35,7 @@ export async function db(path, init = {}) {
 export const TEST_TABLE = 99
 
 // Create the temporary test table (removing any left over from a crashed run).
-// Returns { tableNumber: 99, code } — `code` is what its QR code would contain.
+// Returns the test table's number (99) and its code — what its QR code would contain.
 export async function createTestTable() {
     await removeTestTable()
     const [row] = await db('dining_tables', { method: 'POST', body: JSON.stringify({ table_number: TEST_TABLE }) })

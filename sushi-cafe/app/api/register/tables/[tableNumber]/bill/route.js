@@ -3,8 +3,8 @@ import { getSessionBill } from '@/lib/orders'
 import { requireRegister } from '@/lib/register-auth'
 import { getOpenSession, parseTableNumber } from '@/lib/tables'
 
-// Staff: the bill for an open table, WITHOUT closing it — shown before
-// "Paid — close table". Same shape as the close response.
+// Staff — the bill for an open table, without closing it. Shown before
+// tapping "Paid, close table". Same shape as the close response.
 export async function GET(request, { params }) {
     const denied = await requireRegister(request)
     if (denied) return denied

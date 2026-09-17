@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server'
 
 // Runs before /register pages render (Next 16's "proxy", formerly middleware).
-// A quick first check only: no staff cookie → the login page. The real check
-// (is the cookie genuine and unexpired?) happens in app/register/(staff)/layout.jsx
-// and in every /api/register route, as Next's auth guide recommends.
+// A quick first check only — sends anyone without a staff cookie to the login page.
+// The real check, whether the cookie is genuine and unexpired, happens in
+// app/register/(staff)/layout.jsx and in every /api/register route, as Next's auth guide recommends.
 export function proxy(request) {
     const { pathname, search } = request.nextUrl
     if (pathname === '/register/login') return NextResponse.next()

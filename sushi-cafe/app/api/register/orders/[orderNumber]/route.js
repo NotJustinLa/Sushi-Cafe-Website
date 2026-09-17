@@ -3,7 +3,7 @@ import { ORDER_STATUSES } from '@/lib/order-status'
 import { updateOrderStatus } from '@/lib/orders'
 import { requireRegister } from '@/lib/register-auth'
 
-// Staff: move an order along — { "status": "preparing" | "ready" | "served" | "cancelled" }.
+// Staff — move an order along by sending a new status (preparing, ready, served, or cancelled).
 export async function PATCH(request, { params }) {
     const denied = await requireRegister(request)
     if (denied) return denied

@@ -15,7 +15,7 @@ export default function CartDrawer() {
     const lenis = useLenis()
     const closeButtonRef = useRef(null)
 
-    // Escape closes; page scroll is locked while open (Problem 3).
+    // Escape closes, and page scroll is locked while open (Problem 3).
     useEffect(() => {
         if (!drawerOpen) return
         function handleEscape(e) {

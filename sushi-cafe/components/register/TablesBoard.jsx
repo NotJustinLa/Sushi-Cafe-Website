@@ -6,7 +6,7 @@ import BillSheet from './BillSheet'
 import ConnectionBar from './ConnectionBar'
 import { send, usePoll } from './usePoll'
 
-// Front of house (the counter iPad): orders ready to carry out, and all 9
+// Front of house (the counter iPad) — orders ready to carry out, and all 9
 // tables — open one when a group sits down, see its bill, close it when they pay.
 export default function TablesBoard() {
     const tables = usePoll('/api/register/tables', 5000)

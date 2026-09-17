@@ -14,15 +14,15 @@ export default function About() {
     const sectionRef = useRef(null)
 
     // Scroll-linked progress across the whole time the section passes through
-    // the viewport: 0 as it enters from the bottom, 1 as it leaves off the top.
+    // the viewport — 0 as it enters from the bottom, 1 as it leaves off the top.
     const { scrollYProgress } = useScroll({
         target: sectionRef,
         offset: ['start end', 'end start'],
     })
 
     // Slide the big title and the smaller quote in opposite directions on the
-    // x-axis. The movement is concentrated at entry (0 → 0.2) and exit
-    // (0.8 → 1); through the middle they sit still. Bound to scroll position,
+    // x-axis. The movement is concentrated at entry (0 to 0.2) and exit
+    // (0.8 to 1). Through the middle they sit still. Bound to scroll position,
     // so scrolling back up reverses it.
     const titleX = useTransform(scrollYProgress, [0, 0.4, 0.6, 1], [-24, 0, 0, 24])
     const quoteX = useTransform(scrollYProgress, [0, 0.4, 0.6, 1], [24, 0, 0, -24])

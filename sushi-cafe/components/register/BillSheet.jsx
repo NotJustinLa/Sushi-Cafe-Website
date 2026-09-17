@@ -23,7 +23,7 @@ export default function BillSheet({ tableNumber, onClosed, onBack }) {
         return () => { cancelled = true }
     }, [tableNumber])
 
-    // Escape goes back; focus starts inside the sheet.
+    // Escape goes back. Focus starts inside the sheet.
     useEffect(() => {
         backRef.current?.focus()
         const onKey = (e) => { if (e.key === 'Escape') onBack() }

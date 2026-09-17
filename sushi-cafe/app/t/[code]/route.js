@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import { createTableToken, TABLE_COOKIE, TOKEN_TTL_MINUTES } from '@/lib/table-token'
 import { findTableByCode, getOpenSession } from '@/lib/tables'
 
-// The URL printed in each table's QR code: /t/<code>.
+// The URL printed in each table's QR code is /t/<code>.
 // Only hands the phone a token if staff have opened the table.
 export async function GET(request, { params }) {
     const { code } = await params
@@ -24,9 +24,9 @@ export async function GET(request, { params }) {
     return res
 }
 
-// Relative redirect ("Location: /"), so the phone stays on whatever
-// address it scanned — the Wi-Fi IP in dev, the real domain in production.
-// Don't build it from request.url: in `next dev` that's always
+// Relative redirect (the Location header is just "/"), so the phone stays on
+// whatever address it scanned — the Wi-Fi IP in dev, the real domain in production.
+// Don't build it from request.url — in `next dev` that's always
 // http://localhost:3000, which on a phone means the phone itself.
 // (NextResponse.redirect() only accepts absolute URLs, hence the manual 307.)
 function redirectTo(path) {

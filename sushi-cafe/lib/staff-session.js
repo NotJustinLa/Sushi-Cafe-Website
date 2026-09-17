@@ -26,7 +26,7 @@ export function passcodeMatches(given) {
     return Boolean(expected) && safeEqual(String(given ?? ''), expected)
 }
 
-// For server components and route handlers: is this request logged in as staff?
+// For server components and route handlers — is this request logged in as staff?
 export async function hasStaffSession() {
     return readStaffSession((await cookies()).get(STAFF_COOKIE)?.value) !== null
 }

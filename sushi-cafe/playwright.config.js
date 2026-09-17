@@ -22,7 +22,7 @@ export default defineConfig({
     use: {
         baseURL: BASE_URL,
         // Uses your installed Google Chrome, so there's no browser download.
-        // Without Chrome: run `npx playwright install chromium` and set E2E_CHANNEL=chromium.
+        // Without Chrome, run `npx playwright install chromium` and set E2E_CHANNEL=chromium.
         channel: process.env.E2E_CHANNEL ?? 'chrome',
         trace: 'retain-on-failure',
         screenshot: 'only-on-failure',

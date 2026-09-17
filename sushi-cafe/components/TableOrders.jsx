@@ -40,7 +40,7 @@ export function TableMessage({ eyebrow, title, body, cta }) {
     )
 }
 
-// The live /table page: every order at this table during this visit, with
+// The live /table page — every order at this table during this visit, with
 // statuses that update every 5 seconds. `initial` is the same shape as
 // GET /api/table, rendered on the server so the page never starts empty.
 export default function TableOrders({ initial, sent }) {
@@ -74,7 +74,7 @@ export default function TableOrders({ initial, sent }) {
     }, [status.open])
 
     // Buzz the phone ONCE when an order turns ready. Compare against the
-    // statuses seen last time; nothing buzzes for orders already ready on load.
+    // statuses seen last time. Nothing buzzes for orders already ready on load.
     const seen = useRef(null)
     useEffect(() => {
         const before = seen.current

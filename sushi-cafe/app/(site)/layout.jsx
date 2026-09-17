@@ -5,7 +5,7 @@ import LenisProvider from '@/components/LenisProvider'
 import { CartProvider } from '@/components/CartProvider'
 import CartDrawer from '@/components/CartDrawer'
 
-// The public site (/ and /table). "(site)" is a route group: the brackets keep
+// The public site (/ and /table). "(site)" is a route group — the brackets keep
 // it out of the URL, so these pages get this layout without /site/ in the path.
 export default function SiteLayout({ children }) {
   return (

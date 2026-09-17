@@ -1,13 +1,11 @@
 // Single source of truth for what's orderable and what it costs.
-// The menu cards (browser) and the order API (server) both import this file,
-// so the prices a guest sees are the prices the server charges. No secrets here.
+// Both the menu cards and the order API import this file, so a guest's
+// displayed price always matches what the server charges.
 
-// A platter is EITHER a single price ({ price })
-// OR a set of size variants ({ sizes: [{ label, price }, …] }).
-// The card renders a size toggle only when `sizes` is present.
-// `image` points at a file in /public (served from the site root). Paths are
-// case-sensitive on the deployed server, so they must match the filenames exactly.
-// Prices are in whole dollars here; menuItems converts them to cents.
+// A platter has either a flat price or a list of size variants (label + price).
+// The card shows a size toggle only when sizes are present.
+// `image` paths live under /public and are case-sensitive in production.
+// Prices are written in dollars here. menuItems converts them to cents.
 export const platters = [
     {
         name: 'Handroll Platter',
@@ -51,14 +49,13 @@ export const platters = [
     },
 ]
 
-// "Handroll Platter" → "handroll-platter"
+// e.g. "Handroll Platter" becomes "handroll-platter"
 export const slug = (s) =>
     s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
 
-// Stable id for a platter + optional size. Used as the cart line id AND the
-// menu id, so both sides always agree:
-// ("Handroll Platter", "Medium") → "handroll-platter-medium"
-// ("Mixed Sushi Platter")        → "mixed-sushi-platter"
+// Stable id for a platter plus optional size, used as both the cart line id
+// and the menu id so the two always match.
+// e.g. ("Handroll Platter", "Medium") becomes "handroll-platter-medium"
 export function itemId(name, sizeLabel) {
     return sizeLabel ? `${slug(name)}-${slug(sizeLabel)}` : slug(name)
 }
@@ -83,9 +80,8 @@ export function findMenuItem(id) {
     return byId.get(id) ?? null
 }
 
-// Price an order from ids + quantities ONLY — never trust prices from the
-// browser. Merges duplicate ids and throws on anything unknown or invalid.
-// Returns the snapshot saved on the order (like a receipt) and the total.
+// Prices an order from ids and quantities only, never trusting the browser.
+// Merges duplicate ids and throws on anything unknown or invalid.
 export function priceOrder(lines) {
     const qtyById = new Map()
     for (const { id, qty } of lines) {

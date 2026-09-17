@@ -4,9 +4,9 @@ import { MAX_QTY, orderSchema } from '@/lib/order-schema'
 import { createOrder } from '@/lib/orders'
 import { getCurrentTable } from '@/lib/tables'
 
-// Guest: send the cart to the kitchen. The steps follow §5 of the plan, in order.
+// Guest — send the cart to the kitchen. The steps below run in order.
 export async function POST(request) {
-    // 1. Validate the body: ids + quantities + optional note only.
+    // 1. Validate the body — ids, quantities, and an optional note only.
     let body
     try {
         body = await request.json()
@@ -39,7 +39,7 @@ export async function POST(request) {
     } catch (err) {
         return json({ error: 'unknown_item', message: err.message }, 400)
     }
-    // Duplicate ids get merged, so re-check the limit on the merged quantity.
+    // Duplicate ids get merged, so recheck the limit on the merged quantity.
     if (priced.items.some((line) => line.qty > MAX_QTY)) {
         return json({ error: 'invalid', message: `Maximum ${MAX_QTY} of any one item.` }, 400)
     }
@@ -53,6 +53,6 @@ export async function POST(request) {
         note: parsed.data.note,
     })
 
-    // 6. Done — the client clears the cart and goes to /table.
+    // 6. Done the client clears the cart and goes to /table.
     return json({ orderNumber: order.orderNumber, tableNumber: order.tableNumber, totalCents: order.totalCents }, 201)
 }
