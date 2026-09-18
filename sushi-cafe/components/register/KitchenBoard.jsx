@@ -50,7 +50,7 @@ function useWakeLock() {
     return state
 }
 
-// The kitchen laptop — every active order, oldest first, in three columns.
+// The kitchen laptop, every active order, oldest first, in three columns.
 export default function KitchenBoard() {
     const audio = useRef(null) // Audio element once staff tap "Enable sound"
     const [soundOn, setSoundOn] = useState(false)
